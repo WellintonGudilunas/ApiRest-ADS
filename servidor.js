@@ -3,7 +3,7 @@ const express = require("express");
 const srv = express();
 srv.use(express.json());
 
-//Roteamento das rotas de conteúdo
+
 const produtoRouter = require('./routes/produtoRouter');
 const clienteRouter = require('./routes/clienteRouter');
 const pedidoRouter = require('./routes/pedidoRouter');
