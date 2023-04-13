@@ -1,4 +1,6 @@
 const pedidoModel = require('../models/pedidoModel');
+const clienteModel = require('../models/clienteModel');
+const produtoModel = require('../models/produtoModel');
 
 class pedidoController{
 
@@ -24,15 +26,23 @@ class pedidoController{
 
     async cadastrar(req, res){
         const pedido = req.body;
+        
         if(pedido.codigoProduto.length !== pedido.quantidade.length){
             res.status(400).send("Erro no tamanho dos vetores");
             return;
         }
+
+        //REFERENCIA 
+        const cliente = await clienteModel.findOne({'codigo':  pedido.cliente})
+        pedido.cliente = cliente;
+
+        const produto = await produtoModel.findOne({'codigo':  pedido.produto})
+        pedido.produto = produto;
+
         //Gerador de novo código
         //select * from pedido order by codigo desc;
         const objeto = await pedidoModel.findOne({}).sort({'codigo': -1});
         pedido.codigo = objeto == null ? 1 : objeto.codigo + 1;
-
         //insert into pedido (xxx) values (xxxx);
         const resultado = await pedidoModel.create(pedido);
         res.json(resultado);
@@ -47,10 +57,7 @@ class pedidoController{
     }
 
     async excluir(req, res){
-        const dados = await this.buscarPorCodigo(req, res).catch(error => {
-            console.log(error);
-            res.status(500).send("Erro ao excluir conteúdo!");
-        });
+        const dados = await pedidoModel.findOne({'codigo':  req.params.codigo});
     
         if(dados === null){
             res.status(400).send("Código não encontrado");

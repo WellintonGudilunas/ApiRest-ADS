@@ -4,7 +4,8 @@
   "description": "To make it easy for you to get started with GitLab, here's a list of recommended next steps.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./servidor.js "
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   "homepage": "https://gitlab.com/gilbriatore/2023/topicos4n/servidor#readme",
   "dependencies": {
     "express": "^4.18.2",
-    "mongoose": "^7.0.2"
+    "mongoose": "^7.0.2",
+    "nodemon": "^2.0.22"
   }
 }
