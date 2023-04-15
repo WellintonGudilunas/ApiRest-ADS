@@ -57,6 +57,7 @@ class pedidoController{
     }
 
     async excluir(req, res){
+        
         const dados = await pedidoModel.findOne({'codigo':  req.params.codigo});
     
         if(dados === null){
@@ -65,7 +66,11 @@ class pedidoController{
         }
         const codigo = req.params.codigo;
         
-        await pedidoModel.findOneAndDelete({'codigo': codigo});
+        const retorno = await pedidoModel.findOneAndDelete({'codigo': codigo});
+        if(retorno == null){
+            res.send("Conteúdo não encontrado");
+            return;
+        }
         res.send("Conteúdo excluído!");
     }
     

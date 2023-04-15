@@ -38,7 +38,11 @@ class produtoController{
 
     async excluir(req, res){
         const codigo = req.params.codigo;
-        await produtoModel.findOneAndDelete({'codigo': codigo});
+        const retorno = await produtoModel.findOneAndDelete({'codigo': codigo});
+        if(retorno == null){
+            res.send("Conteúdo não encontrado");
+            return;
+        }
         res.send("Conteúdo excluído!");
     }
 }
