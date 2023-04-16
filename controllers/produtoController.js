@@ -1,5 +1,6 @@
 const produtoModel = require('../models/produtoModel');
 
+
 class produtoController{
 
     async listar(req, res){  
@@ -22,7 +23,9 @@ class produtoController{
         //select * from produto order by codigo desc;
         const objeto = await produtoModel.findOne({}).sort({'codigo': -1});
         produto.codigo = objeto == null ? 1 : objeto.codigo + 1;
-
+        produto.img = {};
+        produto.img.data = req.file.buffer;
+        produto.img.contentType = req.file.mimetype;
         //insert into produto (xxx) values (xxxx);
         const resultado = await produtoModel.create(produto);
         res.json(resultado);        

@@ -7,7 +7,10 @@ const ProdutoSchema = new Schema({
     nome: String,
     estoque: Number,
     descricao: String,
-    img: String
+    img: {
+        data: Buffer,
+        contentType: String
+    }
 });
 
 
