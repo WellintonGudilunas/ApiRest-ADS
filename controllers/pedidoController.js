@@ -34,6 +34,10 @@ class pedidoController{
 
         //REFERENCIA 
         const cliente = await clienteModel.findOne({'codigo':  pedido.codigoCliente})
+        if(cliente === null){
+            res.status(400).send("Cliente inexistente");
+            return;
+        }
         pedido.codigoCliente = cliente._id;
         pedido.codigoProduto = [];
         for (let i = 0; i < pedido.produtos.length; i++) {
