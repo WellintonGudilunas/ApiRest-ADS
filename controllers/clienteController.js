@@ -45,9 +45,8 @@ class clienteController{
         res.json(resultado);        
     }
 
-
+    
     // FAZER VALIDACAO SE ATUALIZOU ALGUMA COISA
-    // FAZER VALIDACAO SE O CONTEUDO A SER ATUALIZADO EXISTE
     async atualizar(req, res){
         const codigo = req.params.codigo;
         const cliente = {
@@ -62,24 +61,16 @@ class clienteController{
             res.status(404).json({msg: "Cliente não encontrado!."});
             return;
         }
-
-        //VALIDAR SE ALGUM DADO FOI ATUALIZADO OU SE FALTA ALGUM CAMPO A ATUALIZAR
-        // console.log(updatedCliente);
-        // if (updatedCliente === null) {
-        //     console.log('Nenhum documento foi atualizado.');
-        //     res.status(200).json({cliente, msg: "Nenhum documento foi atualizado. (Os dados informados são exatamente iguais aos do cliente!)." });
-        // } else {
-        //     console.log('Documento(s) atualizado(s):', updatedCliente.nModified);
-        //     res.status(200).json({cliente, msg: "Cliente Atualizado com sucesso!" });
-        // }
+        res.status(200).json({cliente, msg: "Cliente Atualizado com sucesso!" });
 
     }
 
     async excluir(req, res){
         const codigo = req.params.codigo;
-        const retorno = await clienteModel.findOneAndDelete({'codigo': codigo});
-        if(retorno == null){
-            res.send("Conteúdo não encontrado");
+        const cliente = await clienteModel.findOneAndDelete({'codigo': codigo});
+
+        if(!cliente){
+            res.send("Cliente não encontrado");
             return;
         }
         res.send("Conteúdo excluído!");
