@@ -27,25 +27,40 @@ class pedidoController{
     async cadastrar(req, res){
         const pedido = req.body;
         
-        if(pedido.codigoProduto.length !== pedido.quantidade.length){
+        if(pedido.produtos.length !== pedido.quantidade.length){
             res.status(400).send("Erro no tamanho dos vetores");
             return;
         }
 
         //REFERENCIA 
-        const cliente = await clienteModel.findOne({'codigo':  pedido.cliente})
-        pedido.cliente = cliente;
-
-        const produto = await produtoModel.findOne({'codigo':  pedido.produto})
-        pedido.produto = produto;
+        const cliente = await clienteModel.findOne({'codigo':  pedido.codigoCliente})
+        pedido.codigoCliente = cliente._id;
+        pedido.codigoProduto = [];
+        for (let i = 0; i < pedido.produtos.length; i++) {
+            const cod = pedido.produtos[i];
+            let p = await produtoModel.findOne({'codigo':  cod});
+            pedido.codigoProduto[i] = p._id;
+        }
+        pedido.produtos = undefined;
 
         //Gerador de novo código
         //select * from pedido order by codigo desc;
         const objeto = await pedidoModel.findOne({}).sort({'codigo': -1});
         pedido.codigo = objeto == null ? 1 : objeto.codigo + 1;
-        //insert into pedido (xxx) values (xxxx);
-        const resultado = await pedidoModel.create(pedido);
-        res.json(resultado);
+
+        //Esse aq é um testezinho pq no postman fica mais facil de ver
+        //res.json(pedido);
+        //return;
+        
+        try{
+            const resultado = await pedidoModel.create(pedido);
+            res.json(resultado);
+        }catch(err){
+            console.log(err);
+            res.json(err);
+        }
+        
+        
     }
 
     async atualizar(req, res){

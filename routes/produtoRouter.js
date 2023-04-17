@@ -7,7 +7,9 @@ const upload = require('../config/multer');
 //Produtos
 router.get('/', produtoController.listar);
 router.get('/:codigo', produtoController.buscarPorCodigo);
-router.post('/', upload.single('imagem'), produtoController.salvar);
+//Desabilitado o envio de imagens por enquanto
+//router.post('/', upload.single('image'), produtoController.salvar);
+router.post('/', produtoController.salvar);
 router.put('/:codigo', produtoController.atualizar);
 router.delete('/:codigo', produtoController.excluir);
 
