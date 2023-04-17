@@ -13,6 +13,12 @@ class pedidoController{
     async listar(req, res){  
         //select * from pedido;  
         const resultado = await pedidoModel.find({});
+
+        if(!resultado || resultado.length === 0){
+            res.status(404).json({msg: "Não há nenhum pedido cadastrado!."});
+            return;
+        }
+
         res.json(resultado);    
     }
 
@@ -20,6 +26,11 @@ class pedidoController{
         const codigo  = req.params.codigo;
         //select * from pedido where codigo = 2;
         const resultado = await pedidoModel.findOne({'codigo': codigo});
+        if(!resultado){
+            res.status(404).json({msg: `Pedido com codigo ${codigo} não encontrado.`});
+            return;
+        }
+
         res.json(resultado);
         return resultado;
     }
@@ -43,6 +54,12 @@ class pedidoController{
         for (let i = 0; i < pedido.produtos.length; i++) {
             const cod = pedido.produtos[i];
             let p = await produtoModel.findOne({'codigo':  cod});
+
+            if(!p){
+                res.status(400).send(`O produto com codigo ${cod} é inexistente`);
+                return;
+            }
+            
             pedido.codigoProduto[i] = p._id;
         }
         pedido.produtos = undefined;
@@ -67,6 +84,10 @@ class pedidoController{
         
     }
 
+    //REVISAR ISSO
+    /*
+    *
+    */
     async atualizar(req, res){
         const codigo = req.params.codigo;
         const pedido = req.body;
@@ -75,6 +96,11 @@ class pedidoController{
         res.send("Conteúdo atualizado!");
     }
 
+
+    //REVISAR ISSO
+    /*
+    *
+    */
     async excluir(req, res){
         
         const dados = await pedidoModel.findOne({'codigo':  req.params.codigo});
