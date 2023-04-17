@@ -6,7 +6,7 @@ class produtoController{
     async listar(req, res){  
         //select * from produto;  
         const resultado = await produtoModel.find({});
-        res.json(resultado);    
+        res.json(resultado);
     }
 
     async buscarPorCodigo(req, res){
@@ -23,14 +23,23 @@ class produtoController{
         //select * from produto order by codigo desc;
         const objeto = await produtoModel.findOne({}).sort({'codigo': -1});
         produto.codigo = objeto == null ? 1 : objeto.codigo + 1;
-        console.log(req.file.buffer);
+        //console.log(req);
+
+        //Desabilitado o envio de imagens por enquanto
+        /*
+        if(req.file === undefined){
+            res.status(400).send("Erro no upload do arquivo");
+            return;
+        }
+        
         produto.img = {
             data: req.file.buffer,
             contentType: req.file.mimetype
         };
+        */
         //insert into produto (xxx) values (xxxx);
         const resultado = await produtoModel.create(produto);
-        res.json(resultado);        
+        res.json(resultado);
     }
 
     async atualizar(req, res){
