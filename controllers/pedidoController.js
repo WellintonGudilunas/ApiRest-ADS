@@ -40,6 +40,7 @@ class pedidoController{
         
         if(pedido.produtos.length !== pedido.quantidade.length){
             res.status(400).send("Erro no tamanho dos vetores");
+            
             return;
         }
 
