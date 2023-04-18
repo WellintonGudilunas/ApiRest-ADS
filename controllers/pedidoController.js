@@ -27,7 +27,7 @@ class pedidoController{
         //select * from pedido where codigo = 2;
         const resultado = await pedidoModel.findOne({'codigo': codigo});
         if(!resultado){
-            res.status(400).json({msg: `Pedido com codigo ${codigo} não encontrado.`});
+            res.status(400).json({msg: `Pedido com código ${codigo} não encontrado.`});
             return;
         }
 
@@ -39,14 +39,14 @@ class pedidoController{
         const pedido = req.body;
         
         if(pedido.produtos.length !== pedido.quantidade.length){
-            res.status(400).send("Erro no tamanho dos vetores");
+            res.status(400).json({msg:"Erro no tamanho dos vetores"});
             return;
         }
 
         //REFERENCIA 
         const cliente = await clienteModel.findOne({'codigo':  pedido.codigoCliente})
         if(cliente === null){
-            res.status(400).send("Cliente inexistente");
+            res.status(400).json({msg: `Cliente com código ${pedido.codigoCliente} não encontrado.`});
             return;
         }
         pedido.codigoCliente = cliente._id;
@@ -57,7 +57,7 @@ class pedidoController{
             let p = await produtoModel.findOne({'codigo':  cod});
 
             if(!p){
-                res.status(400).send(`O produto com codigo ${cod} é inexistente`);
+                res.status(400).json({msg :`O produto com código ${cod} é inexistente`});
                 return;
             }
             
@@ -85,16 +85,40 @@ class pedidoController{
         
     }
 
-    //REVISAR ISSO
-    /*
-    *
-    */
     async atualizar(req, res){
-        const codigo = req.params.codigo;
-        const pedido = req.body;
-        //update pedido set xxxx values xxxx
-        await pedidoModel.findOneAndUpdate({'codigo': codigo}, pedido);
-        res.send("Conteúdo atualizado!");
+        const codigoPedido = req.params.codigo;
+        const pedidoAtualizado = req.body;
+
+        const pedido = await pedidoModel.findOne({'codigo': codigoPedido});
+        if(pedido === null){
+            res.status(400).json({msg : `Pedido com código ${codigoPedido} não encontrado.`});
+            return;
+        }
+
+        //Procurando cliente
+        const cliente = await clienteModel.findOne({'codigo':  pedidoAtualizado.codigoCliente})
+        if(cliente === null){
+            res.status(400).json({msg : `Cliente com código ${pedidoAtualizado.codigoCliente} não encontrado.`});
+            return;
+        }
+
+        pedido.codigoCliente = cliente._id;
+        pedido.codigoProduto = [];
+        
+        for (let i = 0; i < pedidoAtualizado.produtos.length; i++) {
+            const cod = pedidoAtualizado.produtos[i];
+            let p = await produtoModel.findOne({'codigo':  cod});
+            if(!p){
+                res.status(400).json({msg :`O produto com código ${cod} é inexistente`});
+                return;
+            }
+            pedido.codigoProduto[i] = p._id;
+        }
+        pedido.produtos = undefined;
+        
+        console.log(retorno);
+        res.json(retorno);
+        //res.send("Conteúdo atualizado!");
     }
 
 
