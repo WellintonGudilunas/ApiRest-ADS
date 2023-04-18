@@ -8,7 +8,7 @@ class clienteController {
             const resultado = await clienteModel.find({});
 
             if (!resultado || resultado.length === 0) {
-                res.status(404).json({ msg: "Não há nenhum cliente cadastrado!." });
+                res.status(400).json({ msg: "Não há nenhum cliente cadastrado!." });
                 return;
             }
 
@@ -24,7 +24,7 @@ class clienteController {
             //select * from cliente where codigo = 2;
             const resultado = await clienteModel.findOne({ 'codigo': codigo });
             if (!resultado) {
-                res.status(404).json({ msg: "Cliente não encontrado." });
+                res.status(400).json({ msg: "Cliente não encontrado." });
                 return;
             }
             res.json(resultado);
@@ -51,7 +51,7 @@ class clienteController {
                 res.json(resultado);
             } catch (err) {
                 if (err.name == "ValidationError") {
-                    res.json({ msg: err.message });
+                    res.status(400).json({ msg: err.message });
                 } else {
                     throw err;
                 }
@@ -60,8 +60,6 @@ class clienteController {
             res.status(500).json({ msg: "Erro interno" });
         }
     }
-
-
 
     async atualizar(req, res) {
         try {
@@ -74,7 +72,7 @@ class clienteController {
             //update cliente set xxxx values xxxx
             const updatedCliente = await clienteModel.findOneAndUpdate({ 'codigo': codigo }, cliente);
             if (!updatedCliente) {
-                res.status(404).json({ msg: "Cliente não encontrado!." });
+                res.status(400).json({ msg: "Cliente não encontrado!." });
                 return;
             }
             res.json({ cliente, msg: "Cliente Atualizado com sucesso!" });
@@ -89,7 +87,7 @@ class clienteController {
             const cliente = await clienteModel.findOneAndDelete({ 'codigo': codigo });
 
             if (!cliente) {
-                res.status(404).json({ msg: "Cliente não encontrado!." });
+                res.status(400).json({ msg: "Cliente não encontrado!." });
                 return;
             }
             res.send("Conteúdo excluído!");
