@@ -88,6 +88,10 @@ class pedidoController {
         try {
             const codigoPedido = req.params.codigo;
             const pedidoAtualizado = req.body;
+            if (pedidoAtualizado.produtos.length !== pedidoAtualizado.quantidade.length) {
+                res.status(400).json({ msg: "Erro no tamanho dos vetores" });
+                return;
+            }
 
             const pedido = await pedidoModel.findOne({ 'codigo': codigoPedido });
             if (pedido === null) {
