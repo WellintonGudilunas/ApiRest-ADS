@@ -6,6 +6,12 @@ class produtoController{
     async listar(req, res){  
         //select * from produto;  
         const resultado = await produtoModel.find({});
+
+        if(!resultado || resultado.length === 0){
+            res.status(404).json({msg: "Não há nenhum produto cadastrado!."});
+            return;
+        }
+
         res.json(resultado);
     }
 
@@ -13,6 +19,12 @@ class produtoController{
         const codigo  = req.params.codigo;
         //select * from produto where codigo = 2;
         const resultado = await produtoModel.findOne({'codigo': codigo});
+
+        if(!resultado || resultado.length === 0){
+            res.status(404).json({msg: `Produto com o código ${codigo} não encontrado.`});
+            return;
+        }
+
         res.json(resultado);
     }
 
@@ -51,6 +63,7 @@ class produtoController{
     async excluir(req, res){
         const codigo = req.params.codigo;
         const retorno = await produtoModel.findOneAndDelete({'codigo': codigo});
+        
         if(retorno == null){
             res.send("Conteúdo não encontrado");
             return;
