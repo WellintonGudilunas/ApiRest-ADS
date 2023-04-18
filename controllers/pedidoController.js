@@ -15,7 +15,7 @@ class pedidoController{
         const resultado = await pedidoModel.find({});
 
         if(!resultado || resultado.length === 0){
-            res.status(404).json({msg: "Não há nenhum pedido cadastrado!."});
+            res.status(400).json({msg: "Não há nenhum pedido cadastrado!."});
             return;
         }
 
@@ -27,7 +27,7 @@ class pedidoController{
         //select * from pedido where codigo = 2;
         const resultado = await pedidoModel.findOne({'codigo': codigo});
         if(!resultado){
-            res.status(404).json({msg: `Pedido com codigo ${codigo} não encontrado.`});
+            res.status(400).json({msg: `Pedido com codigo ${codigo} não encontrado.`});
             return;
         }
 
