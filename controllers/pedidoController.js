@@ -118,7 +118,10 @@ class pedidoController {
             pedido.produtos = undefined;
             pedido.quantidade = pedidoAtualizado.quantidade;
 
-            const retorno = await pedidoModel.findOneAndUpdate({ "codigo": codigoPedido }, pedido);
+            await pedidoModel.findOneAndUpdate({ "codigo": codigoPedido }, pedido);
+
+            //Retornar o pedido atualizado
+            //const retorno = await pedidoModel.findOne({"codigo": codigoPedido});
             //console.log(retorno);
             //res.json(retorno);
             res.send("Conteúdo atualizado!");
