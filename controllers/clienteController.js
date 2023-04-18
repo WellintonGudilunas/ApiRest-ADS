@@ -3,15 +3,19 @@ const clienteModel = require('../models/clienteModel');
 class clienteController{
 
     async listar(req, res){  
-        //select * from cliente;  
-        const resultado = await clienteModel.find({});
-
-        if(!resultado || resultado.length === 0){
-            res.status(404).json({msg: "Não há nenhum cliente cadastrado!."});
-            return;
+        try {
+            //select * from cliente;  
+            const resultado = await clienteModel.find({});
+    
+            if(!resultado || resultado.length === 0){
+                res.status(404).json({msg: "Não há nenhum cliente cadastrado!."});
+                return;
+            }
+    
+            res.json(resultado);    
+        } catch (error) {
+            console.log("Erro: " + error);
         }
-
-        res.json(resultado);    
     }
 
     async buscarPorCodigo(req, res){
