@@ -51,6 +51,7 @@ class pedidoController{
         }
         pedido.codigoCliente = cliente._id;
         pedido.codigoProduto = [];
+        
         for (let i = 0; i < pedido.produtos.length; i++) {
             const cod = pedido.produtos[i];
             let p = await produtoModel.findOne({'codigo':  cod});
