@@ -3,10 +3,22 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ProdutoSchema = new Schema({
-    codigo: Number,
-    nome: String,
-    estoque: Number,
-    descricao: String,
+    codigo: {
+        type:Number,
+        required : [true, "Codigo produto faltando"]
+    },
+    nome: {
+        type:String,
+        required : [true, "Nome produto faltando"]
+    },
+    estoque: {
+        type:Number,
+        required : [true, "Estoque produto faltando"]
+    },
+    descricao: {
+        type:String,
+        required : [true, "Descrição produto faltando"]
+    },
     img: {
         data: Buffer,
         contentType: String
