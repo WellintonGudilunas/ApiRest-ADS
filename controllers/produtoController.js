@@ -6,14 +6,14 @@ class produtoController {
     async listar(req, res) {
         try {
             //select * from produto;  
-            const resultado = await produtoModel.find({});
+            const produto = await produtoModel.find({});
 
-            if (!resultado || resultado.length === 0) {
+            if (!produto || produto.length === 0) {
                 res.status(400).json({ msg: "Não há nenhum produto cadastrado!." });
                 return;
             }
 
-            res.json(resultado);
+            res.json(produto);
         } catch (err) {
             res.status(500).json({ msg: "Erro interno" });
         }
@@ -23,14 +23,14 @@ class produtoController {
         try {
             const codigo = req.params.codigo;
             //select * from produto where codigo = 2;
-            const resultado = await produtoModel.findOne({ 'codigo': codigo });
+            const produto = await produtoModel.findOne({ 'codigo': codigo });
 
-            if (!resultado || resultado.length === 0) {
+            if (!produto || produto.length === 0) {
                 res.status(400).json({ msg: `Produto com o código ${codigo} não encontrado.` });
                 return;
             }
 
-            res.json(resultado);
+            res.json(produto);
         } catch (err) {
             res.status(500).json({ msg: "Erro interno" });
         }

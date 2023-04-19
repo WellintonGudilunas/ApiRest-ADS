@@ -5,14 +5,14 @@ class clienteController {
     async listar(req, res) {
         try {
             //select * from cliente;  
-            const resultado = await clienteModel.find({});
+            const cliente = await clienteModel.find({});
 
-            if (!resultado || resultado.length === 0) {
+            if (!cliente || cliente.length === 0) {
                 res.status(400).json({ msg: "Não há nenhum cliente cadastrado!." });
                 return;
             }
 
-            res.json(resultado);
+            res.json(cliente);
         } catch (err) {
             res.status(500).json({ msg: "Erro interno" });
         }
@@ -22,12 +22,12 @@ class clienteController {
         try {
             const codigo = req.params.codigo;
             //select * from cliente where codigo = 2;
-            const resultado = await clienteModel.findOne({ 'codigo': codigo });
-            if (!resultado) {
+            const cliente = await clienteModel.findOne({ 'codigo': codigo });
+            if (!cliente) {
                 res.status(400).json({ msg: "Cliente não encontrado." });
                 return;
             }
-            res.json(resultado);
+            res.json(cliente);
         } catch (err) {
             res.status(500).json({ msg: "Erro interno" });
         }
@@ -47,8 +47,8 @@ class clienteController {
 
             //insert into cliente (xxx) values (xxxx);
             try {
-                const resultado = await clienteModel.create(cliente);
-                res.json(resultado);
+                const cliente = await clienteModel.create(cliente);
+                res.json(cliente);
             } catch (err) {
                 if (err.name == "ValidationError") {
                     res.status(400).json({ msg: err.message });
