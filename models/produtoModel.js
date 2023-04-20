@@ -15,6 +15,10 @@ const ProdutoSchema = new Schema({
         type:Number,
         required : [true, "Estoque produto faltando"]
     },
+    preco: {
+        type:Number,
+        required : [true, "Preço do produto faltando"]
+    },
     descricao: {
         type:String,
         required : [true, "Descrição produto faltando"]
