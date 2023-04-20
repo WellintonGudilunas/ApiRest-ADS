@@ -14,7 +14,8 @@ const PedidoSchema = new Schema({
         ref: 'produto',
     }],
 
-    quantidade: Array,   
+    quantidade: Array,
+    valorTotal: Number,   
     data: {
         type: Date,
         default: Date.now()
