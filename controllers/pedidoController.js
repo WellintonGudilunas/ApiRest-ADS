@@ -60,18 +60,18 @@ class pedidoController {
             }
             pedido.codigoCliente = cliente._id;
             pedido.codigoProduto = [];
-
+            let valorTotal = 0;
             for (let i = 0; i < pedido.produtos.length; i++) {
                 const cod = pedido.produtos[i];
                 let p = await produtoModel.findOne({ 'codigo': cod });
-
                 if (!p) {
                     res.status(400).json({ msg: `O produto com código ${cod} é inexistente` });
                     return;
                 }
-
+                valorTotal += p.preco;
                 pedido.codigoProduto[i] = p._id;
             }
+            pedido.valorTotal = valorTotal;
             //Removendo o json produtos
             pedido.produtos = undefined;
 
