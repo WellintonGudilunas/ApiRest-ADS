@@ -47,8 +47,8 @@ class clienteController {
 
             //insert into cliente (xxx) values (xxxx);
             try {
-                const cliente = await clienteModel.create(cliente);
-                res.json(cliente);
+                const resultado = await clienteModel.create(cliente);
+                res.json(resultado);
             } catch (err) {
                 if (err.name == "ValidationError") {
                     res.status(400).json({ msg: err.message });
