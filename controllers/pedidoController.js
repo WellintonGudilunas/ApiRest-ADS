@@ -3,13 +3,13 @@ const clienteModel = require('../models/clienteModel');
 const produtoModel = require('../models/produtoModel');
 
 class pedidoController {
-
-    constructor() {
-        // Inicializa a classe com as propriedades e métodos necessários
-        this.buscarPorCodigo = this.buscarPorCodigo.bind(this);
-        this.excluir = this.excluir.bind(this);
-    }
-
+    /*
+        constructor() {
+            // Inicializa a classe com as propriedades e métodos necessários
+            this.buscarPorCodigo = this.buscarPorCodigo.bind(this);
+            this.excluir = this.excluir.bind(this);
+        }
+    */
     async listar(req, res) {
         try {
             //select * from pedido;  
@@ -28,14 +28,13 @@ class pedidoController {
 
     async buscarPorCodigo(req, res) {
         try {
-            const codigo = req.params.codigo;
+            const id = req.params.id;
             //select * from pedido where codigo = 2;
-            const resultado = await pedidoModel.findOne({ 'codigo': codigo });
+            const resultado = await pedidoModel.findById(id);
             if (!resultado) {
-                res.status(400).json({ msg: `Pedido com código ${codigo} não encontrado.` });
+                res.status(400).json({ msg: `Pedido com id ${id} não encontrado.` });
                 return;
             }
-
             res.json(resultado);
             return resultado;
         } catch (err) {
@@ -52,106 +51,109 @@ class pedidoController {
                 return;
             }
 
-            //REFERENCIA 
-            const cliente = await clienteModel.findOne({ 'codigo': pedido.codigoCliente })
+            //REFERENCIA
+            const cliente = await clienteModel.findById(pedido.idCliente);
             if (cliente === null) {
-                res.status(400).json({ msg: `Cliente com código ${pedido.codigoCliente} não encontrado.` });
+                res.status(400).json({ msg: `Cliente com id ${pedido.idCliente} não encontrado.` });
                 return;
             }
-            pedido.codigoCliente = cliente._id;
-            pedido.codigoProduto = [];
-            let valorTotal = 0;
+
+            pedido.idCliente = cliente._id;
+            pedido.idProduto = [];
+            pedido.valorTotal = 0;
+            pedido.itensPedidos = [];
             for (let i = 0; i < pedido.produtos.length; i++) {
-                const cod = pedido.produtos[i];
-                let p = await produtoModel.findOne({ 'codigo': cod });
+                const idProduto = pedido.produtos[i];
+                let p = await produtoModel.findById(idProduto);
                 if (!p) {
-                    res.status(400).json({ msg: `O produto com código ${cod} é inexistente` });
+                    res.status(400).json({ msg: `O produto com id ${idProduto} é inexistente` });
                     return;
                 }
-                valorTotal += p.preco * pedido.quantidade[i];
-                pedido.codigoProduto[i] = p._id;
+                let item = {
+                    idProduto : p._id,
+                    quantidade : pedido.quantidade[i]
+                }
+                pedido.itensPedidos[i] = item;
+                pedido.valorTotal += p.preco * pedido.quantidade[i];
             }
-            pedido.valorTotal = valorTotal;
+
             //Removendo o json produtos
             pedido.produtos = undefined;
+            pedido.quantidade = undefined;
 
-            //Gerador de novo código
-            //select * from pedido order by codigo desc;
-            const objeto = await pedidoModel.findOne({}).sort({ 'codigo': -1 });
-            pedido.codigo = objeto == null ? 1 : objeto.codigo + 1;
-
-            //Esse aq é um testezinho pq no postman fica mais facil de ver
-            //res.json(pedido);
-            //return;
             const resultado = await pedidoModel.create(pedido);
             res.json(resultado);
         } catch (err) {
+            console.log(err);
             res.status(500).json({ msg: "Erro interno" });
         }
     }
 
     async atualizar(req, res) {
         try {
-            const codigoPedido = req.params.codigo;
+            const idPedido = req.params.id;
             const pedidoAtualizado = req.body;
             if (pedidoAtualizado.produtos.length !== pedidoAtualizado.quantidade.length) {
                 res.status(400).json({ msg: "Erro no tamanho dos vetores" });
                 return;
             }
 
-            const pedido = await pedidoModel.findOne({ 'codigo': codigoPedido });
+            const pedido = await pedidoModel.findById(idPedido);
             if (pedido === null) {
-                res.status(400).json({ msg: `Pedido com código ${codigoPedido} não encontrado.` });
+                res.status(400).json({ msg: `Pedido com id ${idPedido} não encontrado.` });
                 return;
             }
 
             //Procurando cliente
-            const cliente = await clienteModel.findOne({ 'codigo': pedidoAtualizado.codigoCliente })
+            const cliente = await clienteModel.findById(pedidoAtualizado.idCliente);
             if (cliente === null) {
-                res.status(400).json({ msg: `Cliente com código ${pedidoAtualizado.codigoCliente} não encontrado.` });
+                res.status(400).json({ msg: `Cliente com id ${pedidoAtualizado.idCliente} não encontrado.` });
                 return;
             }
+            pedido.idCliente = cliente.id;
+            pedido.idProduto = [];
+            pedido.valorTotal = 0;
+            pedido.itensPedidos = [];
 
-            pedido.codigoCliente = cliente._id;
-            pedido.codigoProduto = [];
-
-            for (let i = 0; i < pedidoAtualizado.produtos.length; i++) {
-                const cod = pedidoAtualizado.produtos[i];
-                let p = await produtoModel.findOne({ 'codigo': cod });
+            for (let i = 0; i < pedidoAtualizado.quantidade.length; i++) {
+                const idProduto = pedidoAtualizado.produtos[i];
+                let p = await produtoModel.findById(idProduto);
                 if (!p) {
-                    res.status(400).json({ msg: `O produto com código ${cod} é inexistente` });
+                    res.status(400).json({msg: `O produto com id ${idProduto} é inexistente`});
                     return;
                 }
-                pedido.codigoProduto[i] = p._id;
+                let item = {
+                    idProduto : p._id,
+                    quantidade : pedidoAtualizado.quantidade[i]
+                }
+                pedido.itensPedidos[i] = item;
+                pedido.valorTotal += p.preco * pedidoAtualizado.quantidade[i];
             }
             //Removendo o json produtos
             pedido.produtos = undefined;
-            pedido.quantidade = pedidoAtualizado.quantidade;
+            pedido.quantidade = undefined;
+            
+            await pedidoModel.findByIdAndUpdate(idPedido, pedido);
 
-            await pedidoModel.findOneAndUpdate({ "codigo": codigoPedido }, pedido);
-
-            //Retornar o pedido atualizado
-            //const retorno = await pedidoModel.findOne({"codigo": codigoPedido});
-            //console.log(retorno);
-            //res.json(retorno);
             res.send("Conteúdo atualizado!");
         } catch (err) {
+            console.log(err);
             res.status(500).json({ msg: "Erro interno" });
         }
     }
 
     async excluir(req, res) {
         try {
-            const codigo = req.params.codigo;
+            const id = req.params.id;
 
-            let retorno = await pedidoModel.findOneAndDelete({ 'codigo': codigo });
+            let retorno = await pedidoModel.findByIdAndDelete(id);
             if (retorno === null) {
-                res.status(400).json({ msg: `O pedido com código ${codigo} é inexistente` });
+                res.status(400).json({ msg: `O pedido com id ${id} é inexistente` });
                 return;
             }
-            retorno = await pedidoModel.findOne({ 'codigo': codigo });
+            retorno = await pedidoModel.findById(id);
             if (retorno != null) {
-                res.status(400).json({ msg: `O pedido com código ${codigo} não foi excluid com exito` });
+                res.status(400).json({ msg: `O pedido com id ${id} não foi excluid com exito` });
                 return;
             }
             res.send("Conteúdo excluído!");

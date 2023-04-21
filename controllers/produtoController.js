@@ -12,7 +12,6 @@ class produtoController {
                 res.status(400).json({ msg: "Não há nenhum produto cadastrado!." });
                 return;
             }
-
             res.json(produto);
         } catch (err) {
             res.status(500).json({ msg: "Erro interno" });
@@ -21,15 +20,15 @@ class produtoController {
 
     async buscarPorCodigo(req, res) {
         try {
-            const codigo = req.params.codigo;
+            const id = req.params.id;
             //select * from produto where codigo = 2;
-            const produto = await produtoModel.findOne({ 'codigo': codigo });
+            const produto = await produtoModel.findById(id);
 
             if (!produto || produto.length === 0) {
-                res.status(400).json({ msg: `Produto com o código ${codigo} não encontrado.` });
+                res.status(400).json({ msg: `Produto com o id ${id} não encontrado.` });
                 return;
             }
-
+            produto.img = undefined;
             res.json(produto);
         } catch (err) {
             res.status(500).json({ msg: "Erro interno" });
@@ -39,11 +38,6 @@ class produtoController {
     async salvar(req, res) {
         try {
             const produto = req.body;
-
-            //Gerador de novo código
-            //select * from produto order by codigo desc;
-            const objeto = await produtoModel.findOne({}).sort({ 'codigo': -1 });
-            produto.codigo = objeto == null ? 1 : objeto.codigo + 1;
 
             if (req.file === undefined) {
                 console.log(req);
@@ -56,20 +50,28 @@ class produtoController {
                 contentType: req.file.mimetype
             };
 
-            //insert into produto (xxx) values (xxxx);
             const resultado = await produtoModel.create(produto);
-            res.json(resultado);
+            res.json("Conteúdo adicionado");
         } catch (err) {
+            console.log(err);
             res.status(500).json({ msg: "Erro interno" });
         }
     }
 
     async atualizar(req, res) {
         try {
-            const codigo = req.params.codigo;
+            const id = req.params.id;
             const produto = req.body;
+
+            if (!(req.file === undefined)) {
+                produto.img = {
+                    data: req.file.buffer,
+                    contentType: req.file.mimetype
+                };
+            }
+
             //update produto set xxxx values xxxx
-            await produtoModel.findOneAndUpdate({ 'codigo': codigo }, produto);
+            await produtoModel.findByIdAndUpdate(id, produto);
             res.send("Conteúdo atualizado!");
         } catch (err) {
             res.status(500).json({ msg: "Erro interno" });
@@ -78,8 +80,8 @@ class produtoController {
 
     async excluir(req, res) {
         try {
-            const codigo = req.params.codigo;
-            const retorno = await produtoModel.findOneAndDelete({ 'codigo': codigo });
+            const id = req.params.id;
+            const retorno = await produtoModel.findByIdAndDelete(id);
 
             if (retorno == null) {
                 res.status(400).json({ msg: "Conteúdo não encontrado" });

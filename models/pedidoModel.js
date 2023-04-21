@@ -3,24 +3,32 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const PedidoSchema = new Schema({
-    codigo: Number,
-    codigoCliente: {
-        type: mongoose.Schema.Types.ObjectId,
+    _id: Number,
+    idCliente: {
+        type: Number,
         ref: 'cliente',
         required: [true, "Coloca o código do cliente ai chxará"]
     },
-    codigoProduto: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'produto',
+    itensPedidos:[{
+        type: JSON,
+        required: [true, "Faltou os items do pedido"]
     }],
-
-    quantidade: Array,
-    valorTotal: Number,   
+    valorTotal: Number,
     data: {
         type: Date,
         default: Date.now()
     },
 
+}, {
+    versionKey: false
+});
+
+
+PedidoSchema.pre('save', async function (next) {
+    const Model = mongoose.model('pedido', PedidoSchema);
+    const objMaxId = await Model.findOne().sort({ '_id': -1 });
+    this._id = objMaxId == null ? 1 : objMaxId._id + 1;
+    next();
 });
 
 

@@ -5,9 +5,9 @@ const router = express.Router();
 
 //Produtos
 router.get('/', pedidoController.listar);
-router.get('/:codigo', pedidoController.buscarPorCodigo);
+router.get('/:id', pedidoController.buscarPorCodigo);
 router.post('/', pedidoController.cadastrar);
-router.put('/:codigo', pedidoController.atualizar);
-router.delete('/:codigo', pedidoController.excluir);
+router.put('/:id', pedidoController.atualizar);
+router.delete('/:id', pedidoController.excluir);
 
 module.exports = router;
