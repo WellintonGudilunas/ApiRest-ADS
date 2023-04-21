@@ -6,4 +6,3 @@ TODO:
         - Tipo try catch finally
         - If's
     - Testar as validações se elas não tem brechas
-    -- Arrumar o Valor Total do pedido
