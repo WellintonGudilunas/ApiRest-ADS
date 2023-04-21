@@ -68,7 +68,7 @@ class pedidoController {
                     res.status(400).json({ msg: `O produto com código ${cod} é inexistente` });
                     return;
                 }
-                valorTotal += p.preco;
+                valorTotal += p.preco * pedido.quantidade[i];
                 pedido.codigoProduto[i] = p._id;
             }
             pedido.valorTotal = valorTotal;
