@@ -20,9 +20,9 @@ class clienteController {
 
     async buscarPorCodigo(req, res) {
         try {
-            const codigo = req.params.codigo;
+            const id = req.params.id;
             //select * from cliente where codigo = 2;
-            const cliente = await clienteModel.findOne({ 'codigo': codigo });
+            const cliente = await clienteModel.findById(id);
             if (!cliente) {
                 res.status(400).json({ msg: "Cliente não encontrado." });
                 return;
@@ -61,19 +61,19 @@ class clienteController {
 
     async atualizar(req, res) {
         try {
-            const codigo = req.params.codigo;
+            const id = req.params.id;
             const cliente = {
                 nome: req.body.nome,
                 idade: req.body.idade,
                 cep: req.body.cep
             }
             //update cliente set xxxx values xxxx
-            const updatedCliente = await clienteModel.findOneAndUpdate({ 'codigo': codigo }, cliente);
+            const updatedCliente = await clienteModel.findByIdAndUpdate(id, cliente);
             if (!updatedCliente) {
                 res.status(400).json({ msg: "Cliente não encontrado!." });
                 return;
             }
-            res.json({ cliente, msg: "Cliente Atualizado com sucesso!" });
+            res.json({ updatedCliente, msg: "Cliente Atualizado com sucesso!" });
         } catch (err) {
             res.status(500).json({ msg: "Erro interno" });
         }
