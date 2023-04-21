@@ -34,18 +34,14 @@ class clienteController {
     }
 
     async salvar(req, res) {
+        
         try {
             const cliente = {
                 nome: req.body.nome,
                 idade: req.body.idade,
                 cep: req.body.cep
             }
-            //Gerador de novo código
-            //select * from cliente order by codigo desc;
-            const objeto = await clienteModel.findOne({}).sort({ 'codigo': -1 });
-            cliente.codigo = objeto == null ? 1 : objeto.codigo + 1;
-
-            //insert into cliente (xxx) values (xxxx);
+            
             try {
                 const resultado = await clienteModel.create(cliente);
                 res.json(resultado);
@@ -57,8 +53,10 @@ class clienteController {
                 }
             }
         } catch (err) {
+            console.log(err);
             res.status(500).json({ msg: "Erro interno" });
         }
+        
     }
 
     async atualizar(req, res) {
