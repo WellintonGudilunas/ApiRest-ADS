@@ -81,9 +81,8 @@ class clienteController {
 
     async excluir(req, res) {
         try {
-            const codigo = req.params.codigo;
-            const cliente = await clienteModel.findOneAndDelete({ 'codigo': codigo });
-
+            const id = req.params.id;
+            const cliente = await clienteModel.findByIdAndDelete(id);
             if (!cliente) {
                 res.status(400).json({ msg: "Cliente não encontrado!." });
                 return;
