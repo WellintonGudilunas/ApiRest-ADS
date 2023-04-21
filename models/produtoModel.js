@@ -28,11 +28,10 @@ const ProdutoSchema = new Schema({
     versionKey: false
 });
 
-ProdutoSchema.pre('save', async (next) => {
+ProdutoSchema.pre('save', async function(next){
     const Model = mongoose.model('produto', ProdutoSchema);
-    const objMaxId = await Model.findOne().sort({ "_id": -1 });
+    const objMaxId = await Model.findOne().sort({ '_id': -1 });
     this._id = objMaxId == null ? 1 : objMaxId._id + 1;
     next();
 });
-
 module.exports = mongoose.model('produto', ProdutoSchema);
