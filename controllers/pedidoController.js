@@ -62,7 +62,7 @@ class pedidoController {
             pedido.idCliente = cliente._id;
             pedido.idProduto = [];
             pedido.valorTotal = 0;
-            pedido.itensPedidos = [];
+            pedido.idItensPedido = [];
             for (let i = 0; i < pedido.produtos.length; i++) {
                 const idProduto = pedido.produtos[i];
                 let p = await produtoModel.findById(idProduto);
@@ -75,7 +75,7 @@ class pedidoController {
                     quantidade: pedido.quantidade[i],
                 }
                 const itemPedido = await itemPedidoModel.create(item);
-                pedido.idItensPedidos = itemPedido._id;
+                pedido.idItensPedido[i] = itemPedido._id;
                 pedido.valorTotal += p.preco * pedido.quantidade[i];
                 console.log(item);
             }
