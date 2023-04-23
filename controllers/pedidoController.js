@@ -1,6 +1,7 @@
 const pedidoModel = require('../models/pedidoModel');
 const clienteModel = require('../models/clienteModel');
 const produtoModel = require('../models/produtoModel');
+const itemPedidoModel = require('../models/itemPedidoModel');
 
 class pedidoController {
     /*
@@ -71,12 +72,14 @@ class pedidoController {
                 }
                 let item = {
                     idProduto : p._id,
-                    quantidade : pedido.quantidade[i]
+                    quantidade: pedido.quantidade[i],
                 }
-                pedido.itensPedidos[i] = item;
+                const itemPedido = await itemPedidoModel.create(item);
+                pedido.idItensPedidos = itemPedido._id;
                 pedido.valorTotal += p.preco * pedido.quantidade[i];
+                console.log(item);
             }
-
+            
             //Removendo o json produtos
             pedido.produtos = undefined;
             pedido.quantidade = undefined;
