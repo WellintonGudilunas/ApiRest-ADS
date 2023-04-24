@@ -43,10 +43,9 @@ class pedidoController {
         }
     }
 
-    async cadastrar(req, res) {
+    async create(req, res) {
         try {
             const pedido = req.body;
-            console.log("here " + pedido.produtos.length);
             /*if (pedido.produtos.length !== pedido.quantidade.length) {
                 res.status(400).json({ msg: "Erro no tamanho dos vetores" });
                 return;
@@ -62,7 +61,6 @@ class pedidoController {
             pedido.idCliente = cliente._id;
             pedido.idProduto = [];
             pedido.valorTotal = 0;
-            pedido.idItensPedido = [];
             let items = [];
             for (let i = 0; i < pedido.produtos.length; i++) {
                 const idProduto = pedido.produtos[i].idProduto;
@@ -73,21 +71,23 @@ class pedidoController {
                     return;
                 }
                 
-                console.log("OI 3 ");
                 items[i] = {
                     idProduto : p._id,
                     quantidade: pedido.produtos[i].quantidade,
                 }
-
+                
                 pedido.valorTotal += p.preco * pedido.produtos[i].quantidade;
             }
-            console.log(items);
-            const itemPedido = await itemPedidoModel.create(items);
-            pedido.idItensPedido[i] = itemPedido._id;
+            let itemPedidoObj = {
+                teste: items
+            }
+            const itemPedido = await itemPedidoModel.create(itemPedidoObj);
+            //pedido.idItensPedido = itemPedido.teste;
+            pedido.idItensPedido = itemPedido;
             
             //Removendo o json produtos
-            pedido.produtos = undefined;
-            pedido.quantidade = undefined;
+            //pedido.produtos = undefined;
+            //pedido.quantidade = undefined;
 
             const resultado = await pedidoModel.create(pedido);
             res.json(resultado);
