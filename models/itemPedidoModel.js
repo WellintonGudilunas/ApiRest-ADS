@@ -5,8 +5,8 @@ const Schema = mongoose.Schema;
 const itemPedidoSchema = new Schema({
     _id: Number,
     teste: [{
-        idProduto: { type: Object, required: true },
-        quantidade: { type: Object, required: true }
+        idProduto: { type: Number, required: true },
+        quantidade: { type: Number, required: true }
     }]
 }, {
     versionKey: false

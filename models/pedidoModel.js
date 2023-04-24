@@ -10,7 +10,7 @@ const PedidoSchema = new Schema({
         required: [true, "Coloca o código do cliente ai chxará"]
     },
     idItensPedido:[{
-        type: {},
+        type: Number,
         ref:'itemPedido',
         required: [true, "Faltou os items do pedido"]
     }],

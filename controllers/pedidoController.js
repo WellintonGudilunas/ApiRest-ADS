@@ -65,17 +65,21 @@ class pedidoController {
             pedido.idItensPedido = [];
             let items = [];
             for (let i = 0; i < pedido.produtos.length; i++) {
-                const idProduto = pedido.produtos[i];
+                const idProduto = pedido.produtos[i].idProduto;
                 let p = await produtoModel.findById(idProduto);
+                
                 if (!p) {
                     res.status(400).json({ msg: `O produto com id ${idProduto} é inexistente` });
                     return;
                 }
+                
+                console.log("OI 3 ");
                 items[i] = {
                     idProduto : p._id,
-                    quantidade: pedido.quantidade[i],
+                    quantidade: pedido.produtos[i].quantidade,
                 }
-                pedido.valorTotal += p.preco * pedido.quantidade[i];
+
+                pedido.valorTotal += p.preco * pedido.produtos[i].quantidade;
             }
             console.log(items);
             const itemPedido = await itemPedidoModel.create(items);
