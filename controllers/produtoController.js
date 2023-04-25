@@ -3,7 +3,7 @@ const produtoModel = require('../models/produtoModel');
 
 class produtoController {
 
-    async listar(req, res) {
+    async getAll(req, res) {
         try {
             //select * from produto;  
             const produto = await produtoModel.find({});
@@ -18,7 +18,7 @@ class produtoController {
         }
     }
 
-    async buscarPorCodigo(req, res) {
+    async get(req, res) {
         try {
             const id = req.params.id;
             //select * from produto where codigo = 2;
@@ -35,7 +35,7 @@ class produtoController {
         }
     }
 
-    async salvar(req, res) {
+    async create(req, res) {
         try {
             const produto = req.body;
 
@@ -58,7 +58,7 @@ class produtoController {
         }
     }
 
-    async atualizar(req, res) {
+    async update(req, res) {
         try {
             const id = req.params.id;
             const produto = req.body;
@@ -78,7 +78,7 @@ class produtoController {
         }
     }
 
-    async excluir(req, res) {
+    async delete(req, res) {
         try {
             const id = req.params.id;
             const retorno = await produtoModel.findByIdAndDelete(id);

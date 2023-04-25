@@ -2,7 +2,7 @@ const clienteModel = require('../models/clienteModel');
 
 class clienteController {
 
-    async listar(req, res) {
+    async getAll(req, res) {
         try {
             //select * from cliente;  
             const cliente = await clienteModel.find({});
@@ -18,7 +18,7 @@ class clienteController {
         }
     }
 
-    async buscarPorCodigo(req, res) {
+    async get(req, res) {
         try {
             const id = req.params.id;
             //select * from cliente where codigo = 2;
@@ -33,7 +33,7 @@ class clienteController {
         }
     }
 
-    async salvar(req, res) {
+    async create(req, res) {
         
         try {
             const cliente = {
@@ -59,7 +59,7 @@ class clienteController {
         
     }
 
-    async atualizar(req, res) {
+    async update(req, res) {
         try {
             const id = req.params.id;
             const cliente = {
@@ -79,7 +79,7 @@ class clienteController {
         }
     }
 
-    async excluir(req, res) {
+    async delete(req, res) {
         try {
             const id = req.params.id;
             const cliente = await clienteModel.findByIdAndDelete(id);

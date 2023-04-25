@@ -5,10 +5,10 @@ const router = express.Router();
 const upload = require('../config/multer');
 
 //Produtos
-router.get('/', produtoController.listar);
-router.get('/:id', produtoController.buscarPorCodigo);
-router.post('/', upload.single('imagem'), produtoController.salvar);
-router.put('/:id', upload.single('imagem'), produtoController.atualizar);
-router.delete('/:id', produtoController.excluir);
+router.get('/', produtoController.getAll);
+router.get('/:id', produtoController.get);
+router.post('/', upload.single('imagem'), produtoController.create);
+router.put('/:id', upload.single('imagem'), produtoController.update);
+router.delete('/:id', produtoController.delete);
 
 module.exports = router;

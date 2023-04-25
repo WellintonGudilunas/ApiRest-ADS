@@ -39,7 +39,7 @@ class pedidoController {
         }
     }
 
-    async buscarPorCodigo(req, res) {
+    async get(req, res) {
         try {
             const id = req.params.id;
             //select * from pedido where codigo = 2;
@@ -144,7 +144,7 @@ class pedidoController {
         }
     }
 
-    async atualizar(req, res) {
+    async update(req, res) {
         try {
             const idPedido = req.params.id;
             const pedidoAtualizado = req.body;
@@ -197,7 +197,7 @@ class pedidoController {
         }
     }
 
-    async excluir(req, res) {
+    async delete(req, res) {
         try {
             const id = req.params.id;
 
