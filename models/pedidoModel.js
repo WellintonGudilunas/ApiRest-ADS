@@ -9,11 +9,11 @@ const PedidoSchema = new Schema({
         ref: 'cliente',
         required: [true, "Coloca o código do cliente ai chxará"]
     },
-    idItensPedido:[{
+    idItensPedido:{
         type: Number,
         ref:'itemPedido',
         required: [true, "Faltou os items do pedido"]
-    }],
+    },
     valorTotal: Number,
     data: {
         type: Date,

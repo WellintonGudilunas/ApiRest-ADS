@@ -51,7 +51,7 @@ class produtoController {
             };*/
 
             const resultado = await produtoModel.create(produto);
-            res.json("Conteúdo adicionado");
+            res.json(resultado);
         } catch (err) {
             console.log(err);
             res.status(500).json({ msg: "Erro interno" });

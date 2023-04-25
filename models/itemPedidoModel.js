@@ -4,8 +4,9 @@ const Schema = mongoose.Schema;
 
 const ItemPedidoSchema = new Schema({
     _id: Number,
-    teste: [{
-        idProduto: { type: Number, required: true },
+    coisasCompradas: [{
+        _id: Number,
+        idProduto: { type: Number, ref:'produto', required: true },
         quantidade: { type: Number, required: true }
     }]
 }, {

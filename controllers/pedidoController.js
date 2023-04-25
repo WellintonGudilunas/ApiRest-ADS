@@ -4,6 +4,7 @@ const produtoModel = require('../models/produtoModel');
 const itemPedidoModel = require('../models/itemPedidoModel');
 
 class pedidoController {
+
     /*
         constructor() {
             // Inicializa a classe com as propriedades e métodos necessários
@@ -11,7 +12,7 @@ class pedidoController {
             this.excluir = this.excluir.bind(this);
         }
     */
-    async listar(req, res) {
+    async getAll(req, res) {
         try {
             //select * from pedido;  
             const resultado = await pedidoModel.find({});
@@ -19,6 +20,17 @@ class pedidoController {
             if (!resultado || resultado.length === 0) {
                 res.status(400).json({ msg: "Não há nenhum pedido cadastrado!." });
                 return;
+            }
+            console.log(resultado);
+
+            for(let i = 0; i < resultado.length; i++){
+                console.log(resultado[i].idItensPedido)
+                if(!resultado[i].idItensPedido){
+                    throw "Erro";
+                }
+                const itensPedidos = await itemPedidoModel.findById(resultado[i].idItensPedido);
+                
+                resultado[i].idItensPedido = itensPedidos;
             }
 
             res.json(resultado);
@@ -36,6 +48,12 @@ class pedidoController {
                 res.status(400).json({ msg: `Pedido com id ${id} não encontrado.` });
                 return;
             }
+            if(!resultado.idItensPedido){
+                throw "Erro";
+            }
+            const itensPedidos = await itemPedidoModel.findById(resultado.idItensPedido);
+            
+            resultado.idItensPedido = itensPedidos;
             res.json(resultado);
             return resultado;
         } catch (err) {
@@ -46,6 +64,7 @@ class pedidoController {
     async create(req, res) {
         try {
             const pedido = req.body;
+
             /*if (pedido.produtos.length !== pedido.quantidade.length) {
                 res.status(400).json({ msg: "Erro no tamanho dos vetores" });
                 return;
@@ -58,7 +77,7 @@ class pedidoController {
                 return;
             }
 
-            pedido.idCliente = cliente._id;
+            pedido.idCliente = cliente;
             pedido.idProduto = [];
             pedido.valorTotal = 0;
             let items = [];
@@ -70,7 +89,29 @@ class pedidoController {
                     res.status(400).json({ msg: `O produto com id ${idProduto} é inexistente` });
                     return;
                 }
+
+                if(pedido.produtos[i].quantidade ==0) {
+                    pedido.produtos[i] = undefined;
+                    continue;
+                }
+
+                if(p.estoque < pedido.produtos[i].quantidade){
+                    let mensagemRetorno ;
+                    if(p.estoque > 1){
+                        mensagemRetorno = `O produto com id ${idProduto} só tem ${p.estoque} unidades disponíveis`;
+                    } else if (p.estoque === 1){
+                        mensagemRetorno = `O produto com id ${idProduto} só tem uma unidade disponível`;
+                    } else {
+                        mensagemRetorno = `O produto com id ${idProduto} não está disponível`;
+                    }
+                    res.status(400).json({ msg: mensagemRetorno });
+                    return;
+                }
                 
+                const quantidadeDiminuir = {
+                    estoque: (p.estoque - pedido.produtos[i].quantidade)
+                }
+                await produtoModel.findByIdAndUpdate(idProduto, quantidadeDiminuir);
                 items[i] = {
                     idProduto : p._id,
                     quantidade: pedido.produtos[i].quantidade,
@@ -78,13 +119,19 @@ class pedidoController {
                 
                 pedido.valorTotal += p.preco * pedido.produtos[i].quantidade;
             }
+            
             let itemPedidoObj = {
-                teste: items
+                coisasCompradas: items
             }
+            console.log(itemPedidoObj)
             const itemPedido = await itemPedidoModel.create(itemPedidoObj);
             //pedido.idItensPedido = itemPedido.teste;
             pedido.idItensPedido = itemPedido;
-            
+            if(pedido.idItensPedido.coisasCompradas.length == 0){
+                res.status(400).json({ msg: "Você não pode fazer um pedido sem nenhum produto!!" });
+                return;
+                
+            }
             //Removendo o json produtos
             //pedido.produtos = undefined;
             //pedido.quantidade = undefined;
