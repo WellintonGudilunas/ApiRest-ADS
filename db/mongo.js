@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const url = 'mongodb://127.0.0.1:27017/meubanco';
+const url = 'mongodb://127.0.0.1:27017/mercado';
 
 
 const db = mongoose.connect(url);

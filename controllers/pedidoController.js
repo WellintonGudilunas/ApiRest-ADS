@@ -123,7 +123,7 @@ class pedidoController {
             let itemPedidoObj = {
                 coisasCompradas: items
             }
-            console.log(itemPedidoObj)
+            //console.log(itemPedidoObj)
             const itemPedido = await itemPedidoModel.create(itemPedidoObj);
             //pedido.idItensPedido = itemPedido.teste;
             pedido.idItensPedido = itemPedido;
@@ -148,47 +148,57 @@ class pedidoController {
         try {
             const idPedido = req.params.id;
             const pedidoAtualizado = req.body;
+            /*
             if (pedidoAtualizado.produtos.length !== pedidoAtualizado.quantidade.length) {
                 res.status(400).json({ msg: "Erro no tamanho dos vetores" });
                 return;
             }
+            */
 
+            //Procurando pedido
             const pedido = await pedidoModel.findById(idPedido);
-            if (pedido === null) {
+            if (!pedido) {
                 res.status(400).json({ msg: `Pedido com id ${idPedido} não encontrado.` });
                 return;
             }
 
             //Procurando cliente
             const cliente = await clienteModel.findById(pedidoAtualizado.idCliente);
-            if (cliente === null) {
+            if (!cliente) {
                 res.status(400).json({ msg: `Cliente com id ${pedidoAtualizado.idCliente} não encontrado.` });
                 return;
             }
-            pedido.idCliente = cliente.id;
-            pedido.idProduto = [];
-            pedido.valorTotal = 0;
-            pedido.itensPedidos = [];
 
-            for (let i = 0; i < pedidoAtualizado.quantidade.length; i++) {
-                const idProduto = pedidoAtualizado.produtos[i];
+            pedido.idCliente = cliente;
+            pedido.idProduto = [];
+            pedidoAtualizado.valorTotal = 0;
+            let items = [];
+            for (let i = 0; i < pedidoAtualizado.produtos.length; i++) {
+                const idProduto = pedidoAtualizado.produtos[i].idProduto;
                 let p = await produtoModel.findById(idProduto);
+
                 if (!p) {
                     res.status(400).json({msg: `O produto com id ${idProduto} é inexistente`});
                     return;
                 }
-                let item = {
-                    idProduto : p._id,
-                    quantidade : pedidoAtualizado.quantidade[i]
+                
+                items[i] = {
+                    idProduto : p,
+                    quantidade: pedidoAtualizado.produtos[i].quantidade,
                 }
-                pedido.itensPedidos[i] = item;
-                pedido.valorTotal += p.preco * pedidoAtualizado.quantidade[i];
+
+                pedidoAtualizado.valorTotal += p.preco * pedidoAtualizado.produtos[i].quantidade;
             }
+            let itemPedidoObj = {
+                coisasCompradas: items
+            }
+            const itemPedidoAtualizado = await itemPedidoModel.findByIdAndUpdate(pedido.idItensPedido, itemPedidoObj);
+            pedidoAtualizado.idItensPedido = itemPedidoAtualizado;
             //Removendo o json produtos
-            pedido.produtos = undefined;
-            pedido.quantidade = undefined;
+            // pedido.produtos = undefined;
+            // pedido.quantidade = undefined;
             
-            await pedidoModel.findByIdAndUpdate(idPedido, pedido);
+            await pedidoModel.findByIdAndUpdate(idPedido, pedidoAtualizado);
 
             res.send("Conteúdo atualizado!");
         } catch (err) {
