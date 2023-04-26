@@ -4,15 +4,16 @@ const produtoModel = require('../models/produtoModel');
 class produtoController {
 
     async getAll(req, res) {
-        try {
-            //select * from produto;  
+        try { 
             const produto = await produtoModel.find({});
 
             if (!produto || produto.length === 0) {
                 res.status(400).json({ msg: "Não há nenhum produto cadastrado!." });
                 return;
             }
+
             res.json(produto);
+
         } catch (err) {
             res.status(500).json({ msg: "Erro interno" });
         }
@@ -21,13 +22,13 @@ class produtoController {
     async get(req, res) {
         try {
             const id = req.params.id;
-            //select * from produto where codigo = 2;
             const produto = await produtoModel.findById(id);
 
             if (!produto || produto.length === 0) {
                 res.status(400).json({ msg: `Produto com o id ${id} não encontrado.` });
                 return;
             }
+
             produto.img = undefined;
             res.json(produto);
         } catch (err) {
@@ -38,7 +39,6 @@ class produtoController {
     async create(req, res) {
         try {
             const produto = req.body;
-
             /*if (req.file === undefined) {
                 console.log(req);
                 res.status(400).send({ msg: "Erro no upload do arquivo" });
@@ -70,7 +70,6 @@ class produtoController {
                 };
             }
 
-            //update produto set xxxx values xxxx
             await produtoModel.findByIdAndUpdate(id, produto);
             res.send("Conteúdo atualizado!");
         } catch (err) {
@@ -87,6 +86,7 @@ class produtoController {
                 res.status(400).json({ msg: "Conteúdo não encontrado" });
                 return;
             }
+            
             res.send("Conteúdo excluído!");
         } catch (err) {
             res.status(500).json({ msg: "Erro interno" });

@@ -4,7 +4,6 @@ class clienteController {
 
     async getAll(req, res) {
         try {
-            //select * from cliente;  
             const cliente = await clienteModel.find({});
 
             if (!cliente || cliente.length === 0) {
@@ -27,6 +26,7 @@ class clienteController {
                 res.status(400).json({ msg: "Cliente não encontrado." });
                 return;
             }
+
             res.json(cliente);
         } catch (err) {
             res.status(500).json({ msg: "Erro interno" });
@@ -34,7 +34,6 @@ class clienteController {
     }
 
     async create(req, res) {
-        
         try {
             const cliente = {
                 nome: req.body.nome,
@@ -56,7 +55,6 @@ class clienteController {
             console.log(err);
             res.status(500).json({ msg: "Erro interno" });
         }
-        
     }
 
     async update(req, res) {
@@ -73,6 +71,7 @@ class clienteController {
                 res.status(400).json({ msg: "Cliente não encontrado!." });
                 return;
             }
+            
             updatedCliente = await clienteModel.findById(id);
             res.json({ updatedCliente, msg: "Cliente Atualizado com sucesso!" });
         } catch (err) {
@@ -88,6 +87,7 @@ class clienteController {
                 res.status(400).json({ msg: "Cliente não encontrado!." });
                 return;
             }
+
             res.send("Conteúdo excluído!");
         } catch (err) {
             res.status(500).json({ msg: "Erro interno" });

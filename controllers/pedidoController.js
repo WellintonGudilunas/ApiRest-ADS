@@ -4,7 +4,6 @@ const produtoModel = require('../models/produtoModel');
 const itemPedidoModel = require('../models/itemPedidoModel');
 
 class pedidoController {
-
     /*
         constructor() {
             // Inicializa a classe com as propriedades e métodos necessários
@@ -13,15 +12,14 @@ class pedidoController {
         }
     */
     async getAll(req, res) {
-        try {
-            //select * from pedido;  
+        try {  
             const resultado = await pedidoModel.find({});
 
             if (!resultado || resultado.length === 0) {
                 res.status(400).json({ msg: "Não há nenhum pedido cadastrado!." });
                 return;
             }
-            console.log(resultado);
+            //console.log(resultado);
 
             for(let i = 0; i < resultado.length; i++){
                 console.log(resultado[i].idItensPedido)
@@ -34,6 +32,7 @@ class pedidoController {
             }
 
             res.json(resultado);
+            
         } catch (err) {
             res.status(500).json({ msg: "Erro interno" });
         }
@@ -51,6 +50,7 @@ class pedidoController {
             if(!resultado.idItensPedido){
                 throw "Erro";
             }
+            
             const itensPedidos = await itemPedidoModel.findById(resultado.idItensPedido);
             
             resultado.idItensPedido = itensPedidos;
@@ -81,6 +81,7 @@ class pedidoController {
             pedido.idProduto = [];
             pedido.valorTotal = 0;
             let items = [];
+            
             for (let i = 0; i < pedido.produtos.length; i++) {
                 const idProduto = pedido.produtos[i].idProduto;
                 let p = await produtoModel.findById(idProduto);
@@ -108,7 +109,6 @@ class pedidoController {
                     return;
                 }
                 
-                
                 items[i] = {
                     idProduto : p._id,
                     quantidade: pedido.produtos[i].quantidade,
@@ -125,10 +125,11 @@ class pedidoController {
                 }
                 await produtoModel.findByIdAndUpdate(idProduto, quantidadeDiminuir);
             }
+
             let itemPedidoObj = {
                 coisasCompradas: items
             }
-            //console.log(itemPedidoObj)
+
             const itemPedido = await itemPedidoModel.create(itemPedidoObj);
             //pedido.idItensPedido = itemPedido.teste;
             pedido.idItensPedido = itemPedido;
@@ -159,7 +160,6 @@ class pedidoController {
                 return;
             }
             */
-
             //Procurando pedido
             let pedido = await pedidoModel.findById(idPedido);
             if (!pedido) {
@@ -223,9 +223,11 @@ class pedidoController {
                 }
                 await produtoModel.findByIdAndUpdate(idProduto, novoEstoque);
             }
+
             let itemPedidoObj = {
                 coisasCompradas: items
             }
+
             const itemPedidoAtualizado = await itemPedidoModel.findByIdAndUpdate(pedido.idItensPedido, itemPedidoObj);
             pedidoAtualizado.idItensPedido = itemPedidoAtualizado;
             //Removendo o json produtos
@@ -263,8 +265,9 @@ class pedidoController {
                 p.estoque += pedido.produtos[i].quantidade;
                 await produtoModel.findByIdAndUpdate(idProduto, p);
             }
-            
+
             pedido = await pedidoModel.findById(id);
+
             if (pedido != null) {
                 res.status(400).json({ msg: `O pedido com id ${id} não foi excluido com exito` });
                 return;
