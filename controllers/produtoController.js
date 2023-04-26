@@ -83,10 +83,10 @@ class produtoController {
             const retorno = await produtoModel.findByIdAndDelete(id);
 
             if (retorno == null) {
-                res.status(400).json({ msg: "Conteúdo não encontrado" });
+                res.status(400).json({ msg: `Produto com id ${id} não encontrado.` });
                 return;
             }
-            
+
             res.send("Conteúdo excluído!");
         } catch (err) {
             res.status(500).json({ msg: "Erro interno" });

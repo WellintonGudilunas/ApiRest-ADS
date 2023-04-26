@@ -23,7 +23,7 @@ class clienteController {
             //select * from cliente where codigo = 2;
             const cliente = await clienteModel.findById(id);
             if (!cliente) {
-                res.status(400).json({ msg: "Cliente não encontrado." });
+                res.status(400).json({ msg: `Cliente com id ${id} não encontrado.` });
                 return;
             }
 
@@ -43,7 +43,7 @@ class clienteController {
             
             try {
                 const resultado = await clienteModel.create(cliente);
-                res.json(resultado);
+                res.status(200).json({resultado, msg: "Cliente adicionado!." });
             } catch (err) {
                 if (err.name == "ValidationError") {
                     res.status(400).json({ msg: err.message });
@@ -68,7 +68,7 @@ class clienteController {
             //update cliente set xxxx values xxxx
             let updatedCliente = await clienteModel.findByIdAndUpdate(id, cliente);
             if (!updatedCliente) {
-                res.status(400).json({ msg: "Cliente não encontrado!." });
+                res.status(400).json({ msg: `Cliente com id ${id} não encontrado.` });
                 return;
             }
             
@@ -84,7 +84,7 @@ class clienteController {
             const id = req.params.id;
             const cliente = await clienteModel.findByIdAndDelete(id);
             if (!cliente) {
-                res.status(400).json({ msg: "Cliente não encontrado!." });
+                res.status(400).json({ msg: `Cliente com id ${id} não encontrado.` });
                 return;
             }
 
