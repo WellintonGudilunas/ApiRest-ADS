@@ -1,0 +1,74 @@
+{
+	"info": {
+		"_postman_id": "c9b812d8-8c39-4359-8ebb-cde5233da1e0",
+		"name": "Cliente",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "26798245",
+		"_collection_link": "https://grey-astronaut-5732.postman.co/workspace/Team-Workspace~dd4d0ba6-c55d-449c-877f-d8af4754f8de/collection/26798245-c9b812d8-8c39-4359-8ebb-cde5233da1e0?action=share&creator=26798245&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Cadastrar Clientes",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Joao Paulo 2\",\r\n    \"idade\": 30,\r\n    \"cep\": \"ee9393\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/clientes"
+			},
+			"response": []
+		},
+		{
+			"name": "Todas os clientes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:3000/clientes"
+			},
+			"response": []
+		},
+		{
+			"name": "Cliente por ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:3000/clientes/3"
+			},
+			"response": []
+		},
+		{
+			"name": "Excluir Cliente",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:3000/clientes/30"
+			},
+			"response": []
+		},
+		{
+			"name": "Atualizar Cliente",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Caahorda y\",\r\n    \"idade\": 40,\r\n    \"cep\": \"20010220\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/clientes/1"
+			},
+			"response": []
+		}
+	]
+}

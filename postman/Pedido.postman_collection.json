@@ -1,0 +1,74 @@
+{
+	"info": {
+		"_postman_id": "68db3b2f-fd54-43ba-82a1-155f31c68fa6",
+		"name": "Pedido",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "26798245",
+		"_collection_link": "https://grey-astronaut-5732.postman.co/workspace/Team-Workspace~dd4d0ba6-c55d-449c-877f-d8af4754f8de/collection/26798245-68db3b2f-fd54-43ba-82a1-155f31c68fa6?action=share&creator=26798245&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "listar",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{linque}}/pedidos"
+			},
+			"response": []
+		},
+		{
+			"name": "buscar",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{linque}}/pedidos/12"
+			},
+			"response": []
+		},
+		{
+			"name": "cadastrar",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"idCliente\": 1,\r\n    \"produtos\": [2, 2, 2],\r\n    \"quantidade\": [2, 2, 5]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{linque}}/pedidos"
+			},
+			"response": []
+		},
+		{
+			"name": "atualizar",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Teste\",\r\n    \"idade\": 21,\r\n    \"cep\": \"89\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{linque}}/pedidos/1"
+			},
+			"response": []
+		},
+		{
+			"name": "deletar",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "{{linque}}/pedidos/4"
+			},
+			"response": []
+		}
+	]
+}

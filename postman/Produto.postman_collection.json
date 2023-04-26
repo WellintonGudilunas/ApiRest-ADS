@@ -1,0 +1,95 @@
+{
+	"info": {
+		"_postman_id": "e49569d6-fc37-4f7f-a8ab-a1c658d27480",
+		"name": "Produto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "26798245",
+		"_collection_link": "https://grey-astronaut-5732.postman.co/workspace/Team-Workspace~dd4d0ba6-c55d-449c-877f-d8af4754f8de/collection/26798245-e49569d6-fc37-4f7f-a8ab-a1c658d27480?action=share&creator=26798245&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "listar",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{linque}}/produtos"
+			},
+			"response": []
+		},
+		{
+			"name": "buscar",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{linque}}/produtos/10"
+			},
+			"response": []
+		},
+		{
+			"name": "cadastrar",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "nome",
+							"value": "tecrado",
+							"type": "text"
+						},
+						{
+							"key": "estoque",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "descricao",
+							"value": "Gayner",
+							"type": "text"
+						},
+						{
+							"key": "preco",
+							"value": "100",
+							"type": "text"
+						},
+						{
+							"key": "imagem",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": "{{linque}}/produtos"
+			},
+			"response": []
+		},
+		{
+			"name": "atualizar",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Sabão\",\r\n    \"estoque\": 1,\r\n    \"descricao\": \"limpar\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{linque}}/produtos/1"
+			},
+			"response": []
+		},
+		{
+			"name": "deletar",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "{{linque}}/produtos/7"
+			},
+			"response": []
+		}
+	]
+}

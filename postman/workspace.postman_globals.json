@@ -1,0 +1,15 @@
+{
+	"id": "a08c7749-6347-4ae6-882e-38a2631862a3",
+	"values": [
+		{
+			"key": "linque",
+			"value": "http://localhost:3000",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"name": "Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2023-04-17T03:02:03.812Z",
+	"_postman_exported_using": "Postman/10.12.13"
+}
