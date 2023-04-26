@@ -68,11 +68,12 @@ class clienteController {
                 cep: req.body.cep
             }
             //update cliente set xxxx values xxxx
-            const updatedCliente = await clienteModel.findByIdAndUpdate(id, cliente);
+            let updatedCliente = await clienteModel.findByIdAndUpdate(id, cliente);
             if (!updatedCliente) {
                 res.status(400).json({ msg: "Cliente não encontrado!." });
                 return;
             }
+            updatedCliente = await clienteModel.findById(id);
             res.json({ updatedCliente, msg: "Cliente Atualizado com sucesso!" });
         } catch (err) {
             res.status(500).json({ msg: "Erro interno" });

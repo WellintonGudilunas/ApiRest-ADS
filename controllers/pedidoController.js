@@ -108,10 +108,7 @@ class pedidoController {
                     return;
                 }
                 
-                const quantidadeDiminuir = {
-                    estoque: (p.estoque - pedido.produtos[i].quantidade)
-                }
-                await produtoModel.findByIdAndUpdate(idProduto, quantidadeDiminuir);
+                
                 items[i] = {
                     idProduto : p._id,
                     quantidade: pedido.produtos[i].quantidade,
@@ -120,6 +117,14 @@ class pedidoController {
                 pedido.valorTotal += p.preco * pedido.produtos[i].quantidade;
             }
             
+            for (let i = 0; i < pedido.produtos.length; i++) {
+                const idProduto = pedido.produtos[i].idProduto;
+                let p = await produtoModel.findById(idProduto);
+                const quantidadeDiminuir = {
+                    estoque: (p.estoque - pedido.produtos[i].quantidade)
+                }
+                await produtoModel.findByIdAndUpdate(idProduto, quantidadeDiminuir);
+            }
             let itemPedidoObj = {
                 coisasCompradas: items
             }
@@ -156,11 +161,16 @@ class pedidoController {
             */
 
             //Procurando pedido
-            const pedido = await pedidoModel.findById(idPedido);
+            let pedido = await pedidoModel.findById(idPedido);
             if (!pedido) {
                 res.status(400).json({ msg: `Pedido com id ${idPedido} não encontrado.` });
                 return;
             }
+            
+            let temp = await itemPedidoModel.findById(pedido.idItensPedido);
+            
+            pedido.produtos = [];
+            pedido.produtos = temp.coisasCompradas;
 
             //Procurando cliente
             const cliente = await clienteModel.findById(pedidoAtualizado.idCliente);
@@ -181,6 +191,19 @@ class pedidoController {
                     res.status(400).json({msg: `O produto com id ${idProduto} é inexistente`});
                     return;
                 }
+
+                if((p.estoque + pedido.produtos[i].quantidade) < pedidoAtualizado.produtos[i].quantidade){
+                    let mensagemRetorno;
+                    if(p.estoque > 1){
+                        mensagemRetorno = `Você já pediu ${pedido.produtos[i].quantidade} produtos e o produto com id ${idProduto} só tem mais ${p.estoque} unidades disponíveis`;
+                    } else if (p.estoque === 1){
+                        mensagemRetorno = `Você já pediu ${pedido.produtos[i].quantidade} produtos e produto com id ${idProduto} só tem uma unidade disponível`;
+                    } else {
+                        mensagemRetorno = `Você já pediu ${pedido.produtos[i].quantidade} produtos e o produto com id ${idProduto} não há mais unidades disponíveis`;
+                    }
+                    res.status(400).json({ msg: mensagemRetorno });
+                    return;
+                }
                 
                 items[i] = {
                     idProduto : p,
@@ -188,6 +211,17 @@ class pedidoController {
                 }
 
                 pedidoAtualizado.valorTotal += p.preco * pedidoAtualizado.produtos[i].quantidade;
+            }
+
+            for (let i = 0; i < pedidoAtualizado.produtos.length; i++) {
+                const idProduto = pedidoAtualizado.produtos[i].idProduto;
+                let p = await produtoModel.findById(idProduto);
+
+                const diminuir = pedidoAtualizado.produtos[i].quantidade - pedido.produtos[i].quantidade
+                const novoEstoque = {
+                    estoque: (p.estoque - diminuir)
+                }
+                await produtoModel.findByIdAndUpdate(idProduto, novoEstoque);
             }
             let itemPedidoObj = {
                 coisasCompradas: items
@@ -211,14 +245,28 @@ class pedidoController {
         try {
             const id = req.params.id;
 
-            let retorno = await pedidoModel.findByIdAndDelete(id);
-            if (retorno === null) {
+            let pedido = await pedidoModel.findByIdAndDelete(id);
+            
+            if (pedido === null) {
                 res.status(400).json({ msg: `O pedido com id ${id} é inexistente` });
                 return;
             }
-            retorno = await pedidoModel.findById(id);
-            if (retorno != null) {
-                res.status(400).json({ msg: `O pedido com id ${id} não foi excluid com exito` });
+
+            let temp = await itemPedidoModel.findById(pedido.idItensPedido);
+            
+            pedido.produtos = [];
+            pedido.produtos = temp.coisasCompradas;
+
+            for (let i = 0; i < pedido.produtos.length; i++) {
+                const idProduto = pedido.produtos[i].idProduto;
+                let p = await produtoModel.findById(idProduto);
+                p.estoque += pedido.produtos[i].quantidade;
+                await produtoModel.findByIdAndUpdate(idProduto, p);
+            }
+            
+            pedido = await pedidoModel.findById(id);
+            if (pedido != null) {
+                res.status(400).json({ msg: `O pedido com id ${id} não foi excluido com exito` });
                 return;
             }
             res.send("Conteúdo excluído!");
@@ -226,7 +274,5 @@ class pedidoController {
             res.status(500).json({ msg: "Erro interno" });
         }
     }
-
 }
-
 module.exports = new pedidoController();
