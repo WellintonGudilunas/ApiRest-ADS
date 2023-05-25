@@ -7,7 +7,7 @@ class clienteController {
             const cliente = await clienteModel.find({});
 
             if (!cliente || cliente.length === 0) {
-                res.status(400).json({ msg: "Não há nenhum cliente cadastrado!." });
+                res.status(200).json({ msg: "Não há nenhum cliente cadastrado!." });
                 return;
             }
 
