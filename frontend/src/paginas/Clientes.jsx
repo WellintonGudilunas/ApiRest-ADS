@@ -172,7 +172,7 @@ function Cadastros() {
     <div className="cadastros">
       <Aside />
       <div className="conteudo">
-        <h2>Cadastro de clientes</h2>
+        <h2>Cadastro de Clientes</h2>
         {getConteudo()}
       </div>
     </div>
