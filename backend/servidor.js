@@ -15,5 +15,5 @@ srv.use('/clientes', clienteRouter);
 srv.use('/pedidos', pedidoRouter);
 
 srv.listen(3005, function(){
-    console.log('Servidor rodando em http://localhost:3000');
+    console.log('Servidor rodando em http://localhost:3005');
 });

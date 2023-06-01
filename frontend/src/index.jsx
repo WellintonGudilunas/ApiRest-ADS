@@ -1,17 +1,11 @@
-import "./index.css";
+import './index.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-//import './index.css';
 import App from './App';
-//import reportWebVitals from './reportWebVitals';
-import TemQueCePascal from './components/asd';
-import Cadastros from './Cadastro';
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import { BrowserRouter } from 'react-router-dom';
 
-root.render(
-    <>
-    <App />
-    <Cadastros/>
-    <TemQueCePascal />
-    </>
+const rootDiv = document.getElementById('root');
+const rootDom = ReactDOM.createRoot(rootDiv);
+rootDom.render(
+    <BrowserRouter><App/></BrowserRouter>
 );
