@@ -8,7 +8,7 @@ class produtoController {
             const produto = await produtoModel.find({});
 
             if (!produto || produto.length === 0) {
-                res.status(400).json({ msg: "Não há nenhum produto cadastrado!." });
+                res.status(200).json({ msg: "Não há nenhum produto cadastrado!." });
                 return;
             }
 

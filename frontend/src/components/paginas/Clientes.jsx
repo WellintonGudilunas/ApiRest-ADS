@@ -1,4 +1,4 @@
-import "./Cadastros.css";
+import "./Cadastro.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Aside from "../layout/Aside";
@@ -133,7 +133,6 @@ function Cadastros() {
             }
           }}
         >
-
           Salvar
         </button>
         <button

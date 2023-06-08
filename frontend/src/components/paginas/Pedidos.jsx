@@ -1,46 +1,48 @@
-import "./Cadastros.css";
+import "./Cadastro.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Aside from "../layout/Aside";
 
-function Cadastros() {
-  const [cliente, setCliente] = useState(null);
+function Produtos() {
+  const [produto, setCliente] = useState(null);
 
-  const [clientes, setClientes] = useState([]);
+  const [produtos, setProdutos] = useState([]);
 
-  useEffect(getClientes, []);
+  useEffect(getProdutos, []);
 
-  function getClientes() {
-    console.log("Passou por aqui...");
-    axios.get("http://localhost:3005/clientes").then((resposta) => {
+  function getProdutos() {
+    axios.get("http://localhost:3005/produtos").then((resposta) => {
+      console.log("excluindo 24");
       console.log(resposta.data);
-      setClientes(resposta.data);
+      setProdutos(resposta.data);
     });
   }
 
   function excluirId(id) {
-    axios.delete("http://localhost:3005/clientes/" + id).then((res) => {
-      getClientes();
+    axios.delete("http://localhost:3005/produtos/" + id).then((res) => {
+      console.log("excluindo");
+      getProdutos();
     });
   }
 
-  function getLinha(cliente) {
+  function getLinha(produto) {
     return (
       <tr>
-        <td>{cliente._id}</td>
-        <td>{cliente.nome}</td>
-        <td>{cliente.idade}</td>
-        <td>{cliente.cep}</td>
+        <td>{produto._id}</td>
+        <td>{produto.nome}</td>
+        <td>{produto.estoque}</td>
+        <td>{produto.preco}</td>
+        <td>{produto.descricao}</td>
         <td>
           <button
             onClick={(event) => {
-              excluirId(cliente._id);
+              excluirId(produto._id);
             }}
           >
             Excluir
           </button>
           <button onClick={(event)=>{
-            setCliente(cliente);
+            setCliente(produto);
           }}>Editar</button>
         </td>
       </tr>
@@ -49,9 +51,9 @@ function Cadastros() {
 
   function getLinhas() {
     const linhas = [];
-    for (let i = 0; i < clientes.length; i++) {
-      const cliente = clientes[i];
-      linhas[i] = getLinha(cliente);
+    for (let i = 0; i < produtos.length; i++) {
+      const produto = produtos[i];
+      linhas[i] = getLinha(produto);
     }
 
     return linhas;
@@ -62,9 +64,10 @@ function Cadastros() {
       <table>
         <tr>
           <th>ID</th>
+          <th>Nome</th>
+          <th>Estoque</th>
+          <th>Preco</th>
           <th>Descrição</th>
-          <th>Idade</th>
-          <th>CEP</th>
           <th>Ações</th>
         </tr>
         {getLinhas()}
@@ -80,16 +83,16 @@ function Cadastros() {
   }
 
   function salvar() {
-    axios.post("http://localhost:3005/clientes", cliente).then((res) => {
+    axios.post("http://localhost:3005/produtos", produto).then((res) => {
       setCliente(null);
-      getClientes();
+      getProdutos();
     });
   }
 
   function editar(){
-    axios.put(`http://localhost:3005/clientes/${cliente._id}`, cliente).then((res) => {
+    axios.put(`http://localhost:3005/produtos/${produto._id}`, produto).then((res) => {
       setCliente(null);
-      getClientes();
+      getProdutos();
     });
   }
 
@@ -103,37 +106,45 @@ function Cadastros() {
           onChange={(event) => {
             onChangeCliente(event, "nome");
           }}
-          value={cliente.nome}
+          value={produto.nome}
         />
 
-        <label>Idade</label>
+        <label>Estoque</label>
         <input
           type="number"
           onChange={(event) => {
-            onChangeCliente(event, "idade");
+            onChangeCliente(event, "estoque");
           }}
-          value={cliente.idade}
+          value={produto.estoque}
         />
 
-        <label>CEP</label>
+        <label>Preco</label>
+        <input
+          type="number"
+          onChange={(event) => {
+            onChangeCliente(event, "preco");
+          }}
+          value={produto.preco}
+        />
+
+        <label>Descrição</label>
         <input
           type="text"
           onChange={(event) => {
-            onChangeCliente(event, "cep");
+            onChangeCliente(event, "descricao");
           }}
-          value={cliente.cep}
+          value={produto.descricao}
         />
 
         <button
           onClick={(event) => {
-            if(cliente._id){
+            if(produto._id){
               editar();
             }else{
               salvar();
             }
           }}
         >
-
           Salvar
         </button>
         <button
@@ -148,7 +159,7 @@ function Cadastros() {
   }
 
   function getConteudo() {
-    if (cliente) {
+    if (produto) {
       return getFormulario();
     } else {
       return (
@@ -160,7 +171,7 @@ function Cadastros() {
               });
             }}
           >
-            Cadastrar Cliente
+            Cadastrar Produto
           </button>
 
           {getTabela()}
@@ -173,11 +184,11 @@ function Cadastros() {
     <div className="cadastros">
       <Aside />
       <div className="conteudo">
-        <h2>Cadastro de Clientes</h2>
+        <h2>Cadastro de Produtos</h2>
         {getConteudo()}
       </div>
     </div>
   );
 }
 
-export default Cadastros;
+export default Produtos;

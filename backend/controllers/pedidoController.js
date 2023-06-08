@@ -16,7 +16,7 @@ class pedidoController {
             const resultado = await pedidoModel.find({});
 
             if (!resultado || resultado.length === 0) {
-                res.status(400).json({ msg: "Não há nenhum pedido cadastrado!." });
+                res.status(200).json({ msg: "Não há nenhum pedido cadastrado!." });
                 return;
             }
             //console.log(resultado);
@@ -85,7 +85,7 @@ class pedidoController {
             for (let i = 0; i < pedido.produtos.length; i++) {
                 const idProduto = pedido.produtos[i].idProduto;
                 let p = await produtoModel.findById(idProduto);
-                
+                console.log(idProduto)
                 if (!p) {
                     res.status(400).json({ msg: `O produto com id ${idProduto} é inexistente` });
                     return;
