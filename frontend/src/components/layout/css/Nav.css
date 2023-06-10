@@ -1,0 +1,6 @@
+nav{
+    background-color: rgb(212, 172, 252);
+}
+nav > ul > li > a:hover{
+    background-color: red;
+}

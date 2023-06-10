@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import "./css/Aside.css";
 
 function Aside() {
   return (

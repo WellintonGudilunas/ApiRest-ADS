@@ -33,7 +33,7 @@ main > div > aside > ul {
 
 main > div > aside > ul > li {
   width: 150px;
-  background-color: #ede2a9;
+  /* background-color: #ede2a9; */
   margin: 1px;
 }
 
@@ -43,14 +43,14 @@ main > div > aside > ul > li > a {
   padding-left: 20px;
 }
 
-main > div > aside > ul > li > a:hover {
+/* main > div > aside > ul > li > a:hover {
   color: #2a95f3;
-}
+} */
 
-main > div > aside > ul > li > a.active {
+/* main > div > aside > ul > li > a.active {
   color: #ffffff;
   background-color: #dec85c;
-}
+} */
 
 /* FORMULÁRIO */
 form > * {
@@ -78,38 +78,4 @@ main > div > button {
   padding: 3px;
 }
 
-/* TABELA */
-table,
-th,
-td {
-  border-collapse: collapse;
-  border: 1px solid #aeaeae;
-}
 
-table > tr > th,
-table > tr > td {
-  padding: 3px !important;
-}
-
-table{
-  text-align: center;
-}
-
-
-table > tr > th:nth-child(2),
-table > tr > td:nth-child(2) {
-  text-align: left;
-  width: 250px;
-}
-
-table > tr > th:nth-child(5),
-table > tr > td:nth-child(5) {
-  text-align: center;
-}
-
-table > tr > td > button {
-  width: 100px;
-  display: inline-block;
-  padding: 3px;
-  margin-right: 5px;
-}

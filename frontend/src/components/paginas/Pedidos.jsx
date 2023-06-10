@@ -1,4 +1,4 @@
-import "./Cadastro.css";
+import "./css/Pedidos.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Aside from "../layout/Aside";

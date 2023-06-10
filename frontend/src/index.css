@@ -12,7 +12,7 @@ body,
 
 body {
   margin: 0;
-  background-color: #f4f6fa;
+  /* background-color: #f4f6fa; */
   overflow-y: scroll;
 }
 
@@ -23,14 +23,9 @@ header {
 
 nav {
   grid-area: nav;
-  background-color: #b8ddfb;
+  /* background-color: #b8ddfb; */
 }
 
-main {
-  grid-area: main;
-  background-color: #f8f8d5;
-  min-width: 80vh;
-}
 
 footer {
   grid-area: footer;
@@ -53,15 +48,64 @@ footer {
     "footer footer footer" minmax(auto, 9vh);
 }
 
-#root > * {
+/* #root > * {
   margin: 2px;
   background-color: #ffec99;
-}
+} */
 
 #root > main > div > div {
   text-align: left;
   font-size: 10pt;
 }
+
+/*            */
+
+main > .cadastros > .conteudo > button {
+  border-radius: 20px;
+}
+
+main > .cadastros > .conteudo > button:hover {
+  background-color: royalblue;
+  cursor: pointer;
+}
+
+
+
+main > .cadastros > .conteudo > table > tr > td > button {
+  border-radius: 10px;
+}
+
+main > .cadastros > .conteudo > table > tr > td > button:hover {
+  background-color: royalblue;
+  cursor: pointer;
+}
+
+/* TABELA */
+table,
+th,
+td {
+  border-collapse: collapse;
+  border: 2px solid #000000;
+}
+
+table > tr > th,
+table > tr > td {
+  padding: 5px;
+}
+
+table{
+  text-align: left;
+}
+
+table > tr > td > button {
+  width: 100px;
+  display: inline-block;
+  padding: 5px;
+  margin-right: 5px;
+}
+
+/*   */
+/*  */
 
 ul {
   display: flex;
@@ -87,14 +131,14 @@ ul li a {
   text-decoration: none;
 }
 
-#root > nav > ul li a:hover {
+/* #root > nav > ul li a:hover {
   color: #2a95f3;
 }
 
 #root > nav > ul li a.active {
   color: #967734;
   font-weight: 600;
-}
+} */
 
 #root > main > div.principal {
   padding: 50px;

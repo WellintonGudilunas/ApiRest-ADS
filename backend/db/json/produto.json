@@ -1,0 +1,36 @@
+[
+    {
+        "nome": "Fone",
+        "estoque": 10,
+        "descricao": "Gamer",
+        "preco":  89
+    },
+
+    {
+        "nome": "Teclado",
+        "estoque": 5,
+        "descricao": "Barato",
+        "preco":  79
+    },
+
+    {
+        "nome": "Mouse",
+        "estoque": 80,
+        "descricao": "Gamer",
+        "preco":  129
+    },
+
+    {
+        "nome": "Monitor",
+        "estoque": 13,
+        "descricao": "Gamer",
+        "preco":  990
+    },
+
+    {
+        "nome": "Caneta",
+        "estoque": 200,
+        "descricao": "Azul",
+        "preco":  2
+    }
+]

@@ -1,4 +1,4 @@
-import "./Cadastro.css";
+import "./css/Produtos.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Aside from "../layout/Aside";
