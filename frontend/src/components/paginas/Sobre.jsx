@@ -1,3 +1,5 @@
+import "./css/Util.css";
+
 function Sobre() {
   return (
     <div className="principal">

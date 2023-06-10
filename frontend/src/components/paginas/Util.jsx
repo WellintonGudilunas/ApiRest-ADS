@@ -1,3 +1,5 @@
+import "./css/Util.css";
+
 function Util() {
   return (
     <div className="principal">
