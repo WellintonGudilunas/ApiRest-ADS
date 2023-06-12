@@ -12,27 +12,33 @@ function Pedidos() {
 
   function getPedidos() {
     axios.get("http://localhost:3005/pedidos").then((resposta) => {
-      console.log("excluindo 24");
-      console.log(resposta);
       setPedidos(resposta.data);
     });
   }
 
   function excluirId(id) {
     axios.delete("http://localhost:3005/pedidos/" + id).then((res) => {
-      console.log("excluindo");
       getPedidos();
     });
   }
 
-  function getLinha(pedido) {
+  function getLinha(pedido, x) {
+    console.log(pedido)
     return (
-      <tr>
-        <td>{pedido.idItensPedido.coisasCompradas[0].idProduto}</td>
-        <td>{pedido.nome}</td>
-        <td>{pedido.estoque}</td>
-        <td>{pedido.preco}</td>
-        <td>{pedido.descricao}</td>
+      <tr key={pedido._id}>
+      <td>{x}</td>
+      <td>
+        {pedido.idItensPedido.coisasCompradas.map((produtos) => (
+          <span key={produtos.idProduto}>{produtos.idProduto}, </span>
+        ))}
+      </td>
+      <td>
+        {pedido.idItensPedido.coisasCompradas.map((produtos) => (
+          <span key={produtos.quantidade}>{produtos.quantidade}, </span>
+        ))}
+      </td>
+      <td>{pedido.valorTotal}</td>
+      <td>{pedido.data}</td>
         <td>
           <button
             onClick={(event) => {
@@ -50,14 +56,10 @@ function Pedidos() {
   }
 
   function getLinhas() {
-    const linhas = [];
-    for (let i = 0; i < pedidos.length; i++) {
-      const pedido = pedidos[i];
-      console.log(pedido)
-      linhas[i] = getLinha(pedido);
-    }
-
-    return linhas;
+    return pedidos.map((pedido, index) => {
+      const contador = index + 1;
+      return getLinha(pedido, contador);
+    });
   }
 
   function getTabela() {
@@ -65,10 +67,10 @@ function Pedidos() {
       <table>
         <tr>
           <th>ID</th>
-          <th>Nome</th>
-          <th>Estoque</th>
+          <th>Id dos Produtos</th>
+          <th>Valor Total</th>
           <th>Preco</th>
-          <th>Descrição</th>
+          <th>Data do Pedido</th>
           <th>Ações</th>
         </tr>
         {getLinhas()}
@@ -105,7 +107,7 @@ function Pedidos() {
         <input
           type="text"
           onChange={(event) => {
-            onChangeCliente(event, "nome");
+            onChangeCliente(event, "nome")
           }}
           value={pedido.nome}
         />
