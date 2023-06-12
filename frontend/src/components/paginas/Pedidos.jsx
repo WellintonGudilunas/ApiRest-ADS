@@ -26,7 +26,7 @@ function Pedidos() {
     console.log(pedido)
     return (
       <tr key={pedido._id}>
-      <td>{x}</td>
+      <td>{pedido._id}</td>
       <td>
         {pedido.idItensPedido.coisasCompradas.map((produtos) => (
           <span key={produtos.idProduto}>{produtos.idProduto}, </span>
