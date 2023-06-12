@@ -3,46 +3,46 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Aside from "../layout/Aside";
 
-function Produtos() {
-  const [produto, setCliente] = useState(null);
+function Pedidos() {
+  const [pedido, setCliente] = useState(null);
 
-  const [produtos, setProdutos] = useState([]);
+  const [pedidos, setPedidos] = useState([]);
 
-  useEffect(getProdutos, []);
+  useEffect(getPedidos, []);
 
-  function getProdutos() {
-    axios.get("http://localhost:3005/produtos").then((resposta) => {
+  function getPedidos() {
+    axios.get("http://localhost:3005/pedidos").then((resposta) => {
       console.log("excluindo 24");
-      console.log(resposta.data);
-      setProdutos(resposta.data);
+      console.log(resposta);
+      setPedidos(resposta.data);
     });
   }
 
   function excluirId(id) {
-    axios.delete("http://localhost:3005/produtos/" + id).then((res) => {
+    axios.delete("http://localhost:3005/pedidos/" + id).then((res) => {
       console.log("excluindo");
-      getProdutos();
+      getPedidos();
     });
   }
 
-  function getLinha(produto) {
+  function getLinha(pedido) {
     return (
       <tr>
-        <td>{produto._id}</td>
-        <td>{produto.nome}</td>
-        <td>{produto.estoque}</td>
-        <td>{produto.preco}</td>
-        <td>{produto.descricao}</td>
+        <td>{pedido.idItensPedido.coisasCompradas[0].idProduto}</td>
+        <td>{pedido.nome}</td>
+        <td>{pedido.estoque}</td>
+        <td>{pedido.preco}</td>
+        <td>{pedido.descricao}</td>
         <td>
           <button
             onClick={(event) => {
-              excluirId(produto._id);
+              excluirId(pedido._id);
             }}
           >
             Excluir
           </button>
           <button onClick={(event)=>{
-            setCliente(produto);
+            setCliente(pedido);
           }}>Editar</button>
         </td>
       </tr>
@@ -51,9 +51,10 @@ function Produtos() {
 
   function getLinhas() {
     const linhas = [];
-    for (let i = 0; i < produtos.length; i++) {
-      const produto = produtos[i];
-      linhas[i] = getLinha(produto);
+    for (let i = 0; i < pedidos.length; i++) {
+      const pedido = pedidos[i];
+      console.log(pedido)
+      linhas[i] = getLinha(pedido);
     }
 
     return linhas;
@@ -83,16 +84,16 @@ function Produtos() {
   }
 
   function salvar() {
-    axios.post("http://localhost:3005/produtos", produto).then((res) => {
+    axios.post("http://localhost:3005/pedidos", pedido).then((res) => {
       setCliente(null);
-      getProdutos();
+      getPedidos();
     });
   }
 
   function editar(){
-    axios.put(`http://localhost:3005/produtos/${produto._id}`, produto).then((res) => {
+    axios.put(`http://localhost:3005/pedidos/${pedido._id}`, pedido).then((res) => {
       setCliente(null);
-      getProdutos();
+      getPedidos();
     });
   }
 
@@ -106,7 +107,7 @@ function Produtos() {
           onChange={(event) => {
             onChangeCliente(event, "nome");
           }}
-          value={produto.nome}
+          value={pedido.nome}
         />
 
         <label>Estoque</label>
@@ -115,7 +116,7 @@ function Produtos() {
           onChange={(event) => {
             onChangeCliente(event, "estoque");
           }}
-          value={produto.estoque}
+          value={pedido.estoque}
         />
 
         <label>Preco</label>
@@ -124,7 +125,7 @@ function Produtos() {
           onChange={(event) => {
             onChangeCliente(event, "preco");
           }}
-          value={produto.preco}
+          value={pedido.preco}
         />
 
         <label>Descrição</label>
@@ -133,12 +134,12 @@ function Produtos() {
           onChange={(event) => {
             onChangeCliente(event, "descricao");
           }}
-          value={produto.descricao}
+          value={pedido.descricao}
         />
 
         <button
           onClick={(event) => {
-            if(produto._id){
+            if(pedido._id){
               editar();
             }else{
               salvar();
@@ -159,7 +160,7 @@ function Produtos() {
   }
 
   function getConteudo() {
-    if (produto) {
+    if (pedido) {
       return getFormulario();
     } else {
       return (
@@ -171,7 +172,7 @@ function Produtos() {
               });
             }}
           >
-            Cadastrar Produto
+            Cadastrar Pedido
           </button>
 
           {getTabela()}
@@ -184,11 +185,11 @@ function Produtos() {
     <div className="cadastros">
       <Aside />
       <div className="conteudo">
-        <h2>Cadastro de Produtos</h2>
+        <h2>Cadastro de Pedidos</h2>
         {getConteudo()}
       </div>
     </div>
   );
 }
 
-export default Produtos;
+export default Pedidos;

@@ -110,7 +110,7 @@ class pedidoController {
                 }
                 
                 items[i] = {
-                    idProduto : p._id,
+                    idProduto : p,
                     quantidade: pedido.produtos[i].quantidade,
                 }
                 
