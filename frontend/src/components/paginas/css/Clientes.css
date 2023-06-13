@@ -47,12 +47,7 @@ main > div > aside > ul > li > a {
 } */
 
 /* FORMULÁRIO */
-form > * {
-  display: block;
-  width: 70%;
-  box-sizing: border-box;
-  padding: 5px;
-}
+
 
 label,
 fieldset {

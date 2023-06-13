@@ -1,6 +1,8 @@
 main {
     grid-area: main;
-     background-color: #ea9af1; 
+    background-color: rgb(193, 249, 255);
     min-width: 80vh;
+    border-bottom: 1px solid black;
+
   }
 

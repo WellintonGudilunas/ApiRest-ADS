@@ -60,6 +60,18 @@ footer {
 
 /*            */
 
+form > * {
+  display: block;
+  width: 70%;
+  box-sizing: border-box;
+  padding: 5px;
+}
+
+form > input {
+  width: 50%;
+  border-radius: 8px;
+}
+
 /* Botão que leva pra dentro do form de salvar */
 main > .cadastros > .conteudo > button {
   cursor: pointer;
@@ -167,6 +179,8 @@ main > .cadastros > .conteudo > form > .btSalvar{
   background:linear-gradient(#77b55a, #72b352);
 }
 
+
+
 /* HOVER Botão dentro FORM de salvar */
 main > .cadastros > .conteudo > form > .btSalvar:hover{
   cursor: pointer;
@@ -188,8 +202,8 @@ main > .cadastros > .conteudo > form > .btCancelar{
   border-top-right-radius:6px;
   border-bottom-left-radius:6px;
   border-bottom-right-radius:6px;
-  box-shadow:inset 0px 1px 0px 0px #cf866c;
-  text-shadow:inset 0px 1px 0px #854629;
+  box-shadow: 0px 10px 14px -7px #ec1f17;
+  text-shadow: 0px 1px 0px #e48b07;
   background:linear-gradient(#d0451b, #d0451b);
 }
 

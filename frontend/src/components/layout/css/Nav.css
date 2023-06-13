@@ -1,6 +1,10 @@
 nav{
-    background-color: rgb(212, 172, 252);
+    background-color: rgb(193, 249, 255);
+    border-bottom: 1px solid black;
+
 }
 nav > ul > li > a:hover{
-    background-color: red;
+    background-color: rgb(97, 229, 252);
+    border-radius: 100px;
+    font-weight: bold;
 }
