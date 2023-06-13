@@ -14,12 +14,6 @@
   padding: 0 3px;
 }
 
-#root > main > div > div > button {
-  width: 135px;
-  padding: 5px;
-  margin: 10px 0;
-  display: inline-block;
-}
 
 /* MENU LATERAL */
 main > div > aside {

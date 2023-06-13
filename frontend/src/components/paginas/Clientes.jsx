@@ -32,14 +32,14 @@ function Cadastros() {
         <td>{cliente.idade}</td>
         <td>{cliente.cep}</td>
         <td>
-          <button
+          <button className="btExcluir"
             onClick={(event) => {
               excluirId(cliente._id);
             }}
           >
             Excluir
           </button>
-          <button onClick={(event)=>{
+          <button className="btEditar" onClick={(event)=>{
             setCliente(cliente);
           }}>Editar</button>
         </td>
@@ -124,7 +124,7 @@ function Cadastros() {
           value={cliente.cep}
         />
 
-        <button
+        <button className="btSalvar"
           onClick={(event) => {
             if(cliente._id){
               editar();
@@ -135,7 +135,7 @@ function Cadastros() {
         >
           Salvar
         </button>
-        <button
+        <button className="btCancelar"
           onClick={() => {
             setCliente(null);
           }}

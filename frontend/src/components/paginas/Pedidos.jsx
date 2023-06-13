@@ -40,14 +40,14 @@ function Pedidos() {
       <td>{pedido.valorTotal}</td>
       <td>{pedido.data}</td>
         <td>
-          <button
+          <button className="btExcluir"
             onClick={(event) => {
               excluirId(pedido._id);
             }}
           >
             Excluir
           </button>
-          <button onClick={(event)=>{
+          <button className="btEditar" onClick={(event)=>{
             setCliente(pedido);
           }}>Editar</button>
         </td>
@@ -139,7 +139,7 @@ function Pedidos() {
           value={pedido.descricao}
         />
 
-        <button
+        <button className="btSalvar"
           onClick={(event) => {
             if(pedido._id){
               editar();
@@ -150,7 +150,7 @@ function Pedidos() {
         >
           Salvar
         </button>
-        <button
+        <button className="btCancelar"
           onClick={() => {
             setCliente(null);
           }}

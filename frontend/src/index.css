@@ -60,25 +60,152 @@ footer {
 
 /*            */
 
+/* Botão que leva pra dentro do form de salvar */
 main > .cadastros > .conteudo > button {
-  border-radius: 20px;
+  cursor: pointer;
+  font-size:15px;
+  font-family:Arial;
+  padding: 5px;
+  margin: 15px 0;
+  display: inline-block;
+  width:190px;
+  height:35px;
+  border-width:1px;
+  color:#ffffff;
+  border-color:#337fed;
+  font-weight:bold;
+  border-top-left-radius:6px;
+  border-top-right-radius:6px;
+  border-bottom-left-radius:6px;
+  border-bottom-right-radius:6px;
+  box-shadow:inset 0px 1px 0px 0px #97c4fe;
+  text-shadow:inset 0px 1px 0px #1570cd;
+  background:linear-gradient(#3d94f6, #1e62d0);
 }
 
+/* Botão que leva pra dentro do form de salvar */
 main > .cadastros > .conteudo > button:hover {
-  background-color: royalblue;
+  background: linear-gradient(#378de5, #79bbff);
   cursor: pointer;
 }
+/* 888888888888888888888888888888888888888 */
 
-
-
-main > .cadastros > .conteudo > table > tr > td > button {
-  border-radius: 10px;
-}
-
-main > .cadastros > .conteudo > table > tr > td > button:hover {
-  background-color: royalblue;
+/* ESTILO Botão EDITAR dentro da tabela */
+main > .cadastros > .conteudo > table > tr > td > .btEditar {
   cursor: pointer;
+  margin-left: 5px;
+  font-size:15px;
+  font-family:Arial;
+  width:70px;
+  height:30px;
+  border-width:1px;
+  color:#333333;
+  border-color:#ffaa22;
+  font-weight:bold;
+  border-top-left-radius:6px;
+  border-top-right-radius:6px;
+  border-bottom-left-radius:6px;
+  border-bottom-right-radius:6px;
+  box-shadow: 0px 1px 0px 0px #fff6af;
+  text-shadow: 0px 1px 0px #ffee66;
+  background:linear-gradient(#ffec64, #ffab23);
 }
+
+/* HOVER Botão EDITAR dentro da tabela */
+main > .cadastros > .conteudo > table > tr > td > .btEditar:hover {
+  cursor: pointer;
+  background:linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+	background-color:#ffab23;
+}
+
+/* ESTILO Botão EXCLUIR dentro da tabela */
+main > .cadastros > .conteudo > table > tr > td > .btExcluir {
+  font-size:15px;
+  font-family:Arial;
+  width:70px;
+  height:30px;
+  border-width:1px;
+  color:#fff;
+  border-color:#d0451b;
+  border-top-left-radius:6px;
+  border-top-right-radius:6px;
+  border-bottom-left-radius:6px;
+  border-bottom-right-radius:6px;
+  box-shadow:inset 0px 1px 0px 0px #cf866c;
+  text-shadow:inset 0px 1px 0px #854629;
+  background:linear-gradient(#d0451b, #d0451b);
+}
+
+/* HOVER Botão EXCLUIR dentro da tabela */
+main > .cadastros > .conteudo > table > tr > td > .btExcluir:hover {
+  background: #ff002b;
+  cursor: pointer;
+  background-image: -webkit-linear-gradient(top, #f75050, #fa3f6e);
+  background-image: -moz-linear-gradient(top, #f75050, #fa3f6e);
+  background-image: -ms-linear-gradient(top, #f75050, #fa3f6e);
+  background-image: -o-linear-gradient(top, #f75050, #fa3f6e);
+  background-image: linear-gradient(to bottom, #f75050, #fa3f6e);
+  text-decoration: none;
+}
+
+/* ESTILO Botão dentro FORM de salvar */
+main > .cadastros > .conteudo > form > .btSalvar{
+  font-size:18px;
+  font-family:Arial;
+  width:90px;
+  height:32px;
+  border-width:1px;
+  color:#fff;
+  border-color:#4b8f29;
+  font-weight:bold;
+  border-top-left-radius:6px;
+  border-top-right-radius:6px;
+  border-bottom-left-radius:6px;
+  border-bottom-right-radius:6px;
+  box-shadow: 0px 10px 14px -7px #3e7327;
+  text-shadow: 0px 1px 0px #5b8a3c;
+  background:linear-gradient(#77b55a, #72b352);
+}
+
+/* HOVER Botão dentro FORM de salvar */
+main > .cadastros > .conteudo > form > .btSalvar:hover{
+  cursor: pointer;
+  background:linear-gradient(to bottom, #68a54b 5%, #74ad5a 100%);
+	background-color:#68a54b;
+}
+
+/* ESTILO Botão dentro FORM de cancelar */
+main > .cadastros > .conteudo > form > .btCancelar{
+  font-size:18px;
+  font-family:Arial;
+  width:90px;
+  height:32px;
+  border-width:1px;
+  color:#fff;
+  border-color:#d0451b;
+  font-weight:bold;
+  border-top-left-radius:6px;
+  border-top-right-radius:6px;
+  border-bottom-left-radius:6px;
+  border-bottom-right-radius:6px;
+  box-shadow:inset 0px 1px 0px 0px #cf866c;
+  text-shadow:inset 0px 1px 0px #854629;
+  background:linear-gradient(#d0451b, #d0451b);
+}
+
+
+/* HOVER Botão dentro FORM de cancelar */
+main > .cadastros > .conteudo > form > .btCancelar:hover{
+  cursor: pointer;
+  background: #ff002b;
+  background-image: -webkit-linear-gradient(top, #f75050, #fa3f6e);
+  background-image: -moz-linear-gradient(top, #f75050, #fa3f6e);
+  background-image: -ms-linear-gradient(top, #f75050, #fa3f6e);
+  background-image: -o-linear-gradient(top, #f75050, #fa3f6e);
+  background-image: linear-gradient(to bottom, #f75050, #fa3f6e);
+  text-decoration: none;
+}
+
 
 /* TABELA */
 table,
@@ -86,6 +213,7 @@ th,
 td {
   border-collapse: collapse;
   border: 2px solid #000000;
+  font-size: 15px;
 }
 
 table > tr > th,
@@ -94,15 +222,11 @@ table > tr > td {
 }
 
 table{
-  text-align: left;
+  text-align: center;
+  
 }
 
-table > tr > td > button {
-  width: 100px;
-  display: inline-block;
-  padding: 5px;
-  margin-right: 5px;
-}
+
 
 /*   */
 /*  */

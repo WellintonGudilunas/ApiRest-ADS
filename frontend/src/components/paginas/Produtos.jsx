@@ -34,14 +34,14 @@ function Produtos() {
         <td>{produto.preco}</td>
         <td>{produto.descricao}</td>
         <td>
-          <button
+          <button className="btExcluir"
             onClick={(event) => {
               excluirId(produto._id);
             }}
           >
             Excluir
           </button>
-          <button onClick={(event)=>{
+          <button className="btEditar" onClick={(event)=>{
             setCliente(produto);
           }}>Editar</button>
         </td>
@@ -136,7 +136,7 @@ function Produtos() {
           value={produto.descricao}
         />
 
-        <button
+        <button className="btSalvar"
           onClick={(event) => {
             if(produto._id){
               editar();
@@ -147,7 +147,7 @@ function Produtos() {
         >
           Salvar
         </button>
-        <button
+        <button className="btCancelar"
           onClick={() => {
             setCliente(null);
           }}
