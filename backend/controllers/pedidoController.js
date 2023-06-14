@@ -248,7 +248,7 @@ class pedidoController {
             const id = req.params.id;
 
             let pedido = await pedidoModel.findByIdAndDelete(id);
-            
+
             if (pedido === null) {
                 res.status(400).json({ msg: `O pedido com id ${id} é inexistente` });
                 return;
@@ -267,13 +267,14 @@ class pedidoController {
             }
 
             pedido = await pedidoModel.findById(id);
-
+            let iditens = await itemPedidoModel.findByIdAndDelete(id);
             if (pedido != null) {
                 res.status(400).json({ msg: `O pedido com id ${id} não foi excluido com exito` });
                 return;
             }
             res.send("Conteúdo excluído!");
         } catch (err) {
+            console.log(err)
             res.status(500).json({ msg: "Erro interno" });
         }
     }

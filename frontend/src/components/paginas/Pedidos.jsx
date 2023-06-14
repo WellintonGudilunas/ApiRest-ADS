@@ -4,8 +4,10 @@ import { useState, useEffect } from "react";
 import Aside from "../layout/Aside";
 
 function Pedidos() {
-  const [pedido, setCliente] = useState(null);
-
+  const [cliente, setCliente] = useState(null);
+  const [pedido, setPedido] = useState(null);
+  const [quantidade, setQuantidade] = useState(null);
+  const [produto, setProduto] = useState(null);
   const [pedidos, setPedidos] = useState([]);
 
   useEffect(getPedidos, []);
@@ -22,7 +24,7 @@ function Pedidos() {
     });
   }
 
-  function getLinha(pedido, x) {
+  function getLinha(pedido) {
     console.log(pedido)
     return (
       <tr key={pedido._id}>
@@ -48,7 +50,7 @@ function Pedidos() {
             Excluir
           </button>
           <button className="btEditar" onClick={(event)=>{
-            setCliente(pedido);
+            setPedido(pedido);
           }}>Editar</button>
         </td>
       </tr>
@@ -56,9 +58,11 @@ function Pedidos() {
   }
 
   function getLinhas() {
-    return pedidos.map((pedido, index) => {
-      const contador = index + 1;
-      return getLinha(pedido, contador);
+    console.log(pedido)
+    if(pedidos["msg"]) return null;
+    
+    return pedidos.map((pedido) => {
+      return getLinha(pedido);
     });
   }
 
@@ -68,7 +72,7 @@ function Pedidos() {
         <tr>
           <th>ID</th>
           <th>Id dos Produtos</th>
-          <th>Valor Total</th>
+          <th>Quantidade</th>
           <th>Preco</th>
           <th>Data do Pedido</th>
           <th>Ações</th>
@@ -79,22 +83,32 @@ function Pedidos() {
   }
 
   function onChangeCliente(e, param) {
-    setCliente((prevCliente) => ({
-      ...prevCliente,
-      [param]: e.target.value,
-    }));
+    setCliente(e.target.value);
+  }
+
+  function onChangeProduto(e, param) {
+    setProduto(e.target.value);
+  }
+
+  function onChangeQuantidade(e, param) {
+    setQuantidade(e.target.value);
   }
 
   function salvar() {
-    axios.post("http://localhost:3005/pedidos", pedido).then((res) => {
-      setCliente(null);
+    let req = {
+      "idCliente": cliente,
+      "produtos": [{"idProduto" : produto, "quantidade" : quantidade}]
+    }
+    axios.post("http://localhost:3005/pedidos", req).then((res) => {
+      setPedido(null);
       getPedidos();
     });
+    setPedido(null);
   }
 
   function editar(){
     axios.put(`http://localhost:3005/pedidos/${pedido._id}`, pedido).then((res) => {
-      setCliente(null);
+      setPedido(null);
       getPedidos();
     });
   }
@@ -103,44 +117,36 @@ function Pedidos() {
     //TODO: Add range input size variable for age (idade in potuguese)
     return (
       <form>
-        <label>Nome</label>
-        <input
-          type="text"
-          onChange={(event) => {
-            onChangeCliente(event, "nome")
-          }}
-          value={pedido.nome}
-        />
-
-        <label>Estoque</label>
+        <label>Id cliente</label>
         <input
           type="number"
           onChange={(event) => {
-            onChangeCliente(event, "estoque");
+            onChangeCliente(event, "idCliente")
           }}
-          value={pedido.estoque}
+          value={cliente}
         />
 
-        <label>Preco</label>
+        <label>Id produto</label>
         <input
           type="number"
           onChange={(event) => {
-            onChangeCliente(event, "preco");
+            onChangeProduto(event);
           }}
-          value={pedido.preco}
+          value={produto}
         />
 
-        <label>Descrição</label>
+        <label>Quantidade</label>
         <input
-          type="text"
+          type="number"
           onChange={(event) => {
-            onChangeCliente(event, "descricao");
+            onChangeQuantidade(event);
           }}
-          value={pedido.descricao}
+          value={quantidade}
         />
 
         <button className="btSalvar"
           onClick={(event) => {
+            event.preventDefault();
             if(pedido._id){
               editar();
             }else{
@@ -152,7 +158,7 @@ function Pedidos() {
         </button>
         <button className="btCancelar"
           onClick={() => {
-            setCliente(null);
+            setPedido(null);
           }}
         >
           Cancelar
@@ -169,7 +175,7 @@ function Pedidos() {
         <>
           <button
             onClick={() => {
-              setCliente({
+              setPedido({
                 nome: "",
               });
             }}
