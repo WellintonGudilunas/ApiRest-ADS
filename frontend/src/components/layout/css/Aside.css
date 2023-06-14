@@ -1,12 +1,13 @@
 aside > ul > li{
-    background-color: rgb(245, 236, 207);
+    background-color: rgb(130, 178, 250);
 }
 
 main > div > aside > ul > li > a:hover {
-  color: red;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
 } 
 
 main > div > aside > ul > li > a.active {
   color: #ffffff;
-  background-color: #60db7b;
+  background-color: #194096;
 }
